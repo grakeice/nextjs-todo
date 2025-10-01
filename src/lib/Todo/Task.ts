@@ -1,49 +1,49 @@
-import z from "zod";
+import { z } from "zod";
 
 export const taskStatusSchema = z.enum(["TODO", "IN_PROGRESS", "DONE"]);
 
-export const taskSchema = z
+const taskUpdateSchema = z
 	.object({
-		id: z.uuid().default(crypto.randomUUID()),
-		name: z.string().default("untitled"),
+		name: z.string().optional(),
 		description: z.string().optional(),
-		status: taskStatusSchema.default("TODO"),
-		expire: z.iso
-			.datetime()
-			.transform((v) => new Date(v))
-			.optional(),
-		createdAt: z.iso
-			.datetime()
-			.default(() => new Date().toISOString())
-			.transform((v) => new Date(v)),
-		updatedAt: z.iso
-			.datetime()
-			.default(() => new Date().toISOString())
-			.transform((v) => new Date(v)),
+		status: taskStatusSchema.optional(),
+		expire: z.iso.datetime().optional(),
+	})
+	.strict();
+
+const taskCreateSchema = taskUpdateSchema.extend({
+	name: z.string().default("untitled").optional(),
+	status: taskStatusSchema.default("TODO").optional(),
+});
+
+export const taskSchema = taskCreateSchema
+	.required({ name: true, status: true })
+	.extend({
+		id: z.uuid().default(() => crypto.randomUUID()),
+		createdAt: z.iso.datetime().default(() => new Date().toISOString()),
+		updatedAt: z.iso.datetime().default(() => new Date().toISOString()),
 	})
 	.readonly();
 
 export type Task = z.infer<typeof taskSchema>;
-
 export type TaskStatus = z.infer<typeof taskStatusSchema>;
+export type TaskCreate = z.infer<typeof taskCreateSchema>;
+export type TaskUpdate = z.infer<typeof taskUpdateSchema>;
 
-type editTaskArgs = {
+type updateTaskArgs = {
 	base: Task;
-	diff: Pick<Partial<Task>, "name" | "description" | "status" | "expire">;
+	diff: TaskUpdate;
 };
 
-export function createTask({
-	...data
-}: Omit<Partial<Task>, "createdAt">): Task {
-	const result = taskSchema.parse(data);
-	if ("createdAt" in data) throw new Error("作成日は設定できません");
+export function createTask({ ...data }: TaskCreate): Task {
+	const result = taskSchema.parse(taskCreateSchema.parse(data));
 	return result;
 }
 
-export function editTask({ ...data }: editTaskArgs): Task {
+export function updateTask({ ...data }: updateTaskArgs): Task {
 	return taskSchema.parse({
-		...data.base,
-		...data.diff,
-		updatedAt: new Date(),
+		...taskSchema.parse(data.base),
+		...taskUpdateSchema.parse(data.diff),
+		updatedAt: new Date().toISOString(),
 	});
 }
