@@ -1,0 +1,16 @@
+{
+	"biome.enabled": true,
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"css.lint.unknownAtRules": "ignore",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit"
+	}
+}
