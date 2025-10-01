@@ -8,12 +8,18 @@ export const taskSchema = z
 		name: z.string().default("untitled"),
 		description: z.string().optional(),
 		status: taskStatusSchema.default("TODO"),
-		expire: z.date().optional(),
-		createdAt: z
-			.date()
-			.readonly()
-			.default(() => new Date()),
-		updatedAt: z.date().default(() => new Date()),
+		expire: z.iso
+			.datetime()
+			.transform((v) => new Date(v))
+			.optional(),
+		createdAt: z.iso
+			.datetime()
+			.default(() => new Date().toISOString())
+			.transform((v) => new Date(v)),
+		updatedAt: z.iso
+			.datetime()
+			.default(() => new Date().toISOString())
+			.transform((v) => new Date(v)),
 	})
 	.readonly();
 
@@ -26,8 +32,12 @@ type editTaskArgs = {
 	diff: Pick<Partial<Task>, "name" | "description" | "status" | "expire">;
 };
 
-export function createTask({ ...data }: Partial<Task>): Task {
-	return taskSchema.parse(data);
+export function createTask({
+	...data
+}: Omit<Partial<Task>, "createdAt">): Task {
+	const result = taskSchema.parse(data);
+	if ("createdAt" in data) throw new Error("作成日は設定できません");
+	return result;
 }
 
 export function editTask({ ...data }: editTaskArgs): Task {
