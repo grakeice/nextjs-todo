@@ -28,7 +28,7 @@ export type Task = z.infer<typeof taskSchema>;
 export type TaskStatus = z.infer<typeof taskStatusSchema>;
 
 type editTaskArgs = {
-	original: Task;
+	base: Task;
 	diff: Pick<Partial<Task>, "name" | "description" | "status" | "expire">;
 };
 
@@ -42,7 +42,7 @@ export function createTask({
 
 export function editTask({ ...data }: editTaskArgs): Task {
 	return taskSchema.parse({
-		...data.original,
+		...data.base,
 		...data.diff,
 		updatedAt: new Date(),
 	});
