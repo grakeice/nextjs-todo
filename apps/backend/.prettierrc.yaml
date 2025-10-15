@@ -1,0 +1,15 @@
+plugins:
+  - "@trivago/prettier-plugin-sort-imports"
+
+importOrderParserPlugins:
+  - "typescript"
+  - "decorators-legacy"
+
+importOrderSeparation: true
+importOrder:
+  - "^dotenv/(.*)$"
+  - "^@nestjs/(.*)$"
+  - "^node:"
+  - "<THIRD_PARTY_MODULES>"
+  - "^@/(.*)$"
+  - "^[./]"

@@ -1,0 +1,8 @@
+packages:
+  - apps/*
+
+onlyBuiltDependencies:
+  - "@nestjs/core"
+  - "@tailwindcss/oxide"
+  - sharp
+  - unrs-resolver
