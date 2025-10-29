@@ -1,5 +1,7 @@
 import { UseGuards } from "@nestjs/common";
-import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, Context } from "@nestjs/graphql";
+
+import type { IncomingMessage } from "node:http";
 
 import { JwtAuthGuard } from "@/auth/guards/jwt-auth.guards";
 
@@ -25,19 +27,29 @@ export class UsersResolver {
 	@Query(() => User, { name: "user" })
 	@UseGuards(JwtAuthGuard)
 	async findUnique(
-		@Args("id", { type: () => String, nullable: true }) id?: string,
-		@Args("email", { type: () => String, nullable: true }) email?: string,
+		@Args("email", { type: () => String, nullable: true }) email: string,
+		@Context() context: { req: IncomingMessage & { user: User } },
 	) {
+		const id = context.req.user.id;
+
 		return await this.usersService.findUnique({ where: { id, email } });
 	}
 
 	@Mutation(() => User)
-	updateUser(@Args("updateUserInput") updateUserInput: UpdateUserInput) {
-		return this.usersService.update(updateUserInput.id, updateUserInput);
+	@UseGuards(JwtAuthGuard)
+	updateUser(
+		@Args("updateUserInput") updateUserInput: UpdateUserInput,
+		@Context() context: { req: IncomingMessage & { user: User } },
+	) {
+		const id = context.req.user.id;
+		return this.usersService.update(id, updateUserInput);
 	}
 
 	@Mutation(() => User)
-	removeUser(@Args("id", { type: () => String }) id: string) {
+	@UseGuards(JwtAuthGuard)
+	removeUser(@Context() context: { req: IncomingMessage & { user: User } }) {
+		const id = context.req.user.id;
+
 		return this.usersService.remove(id);
 	}
 }
