@@ -19,6 +19,7 @@ export class UsersResolver {
 		return this.usersService.create(createUserInput);
 	}
 
+	// 削除すべきかもしれない
 	@Query(() => [User], { name: "users" })
 	findAll() {
 		return this.usersService.findAll();
