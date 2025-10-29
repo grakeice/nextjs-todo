@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
 import bcrypt from "bcrypt";
+import type { Prisma } from "generated/prisma";
 
 import { PrismaService } from "@/prisma/prisma.service";
 
@@ -24,12 +25,8 @@ export class UsersService {
 		return this.prisma.user.findMany();
 	}
 
-	async findOne(id: string) {
-		return this.prisma.user.findUnique({ where: { id } });
-	}
-
-	async findOneWithEmail(email: string) {
-		return this.prisma.user.findUnique({ where: { email } });
+	async findUnique(args: Prisma.UserFindUniqueArgs) {
+		return this.prisma.user.findUnique(args);
 	}
 
 	async update(id: string, updateUserInput: UpdateUserInput) {
