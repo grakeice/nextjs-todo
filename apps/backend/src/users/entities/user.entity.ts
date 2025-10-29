@@ -2,6 +2,8 @@ import { ObjectType, Field, ID } from "@nestjs/graphql";
 
 import { IsEmail } from "class-validator";
 
+import { Task } from "@/tasks/entities/task.entity";
+
 @ObjectType()
 export class User {
 	@Field(() => ID)
@@ -22,4 +24,7 @@ export class User {
 
 	@Field(() => Date, { nullable: true })
 	updatedAt: Date | null;
+
+	@Field(() => [Task])
+	Task: Task[];
 }

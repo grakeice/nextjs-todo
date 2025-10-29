@@ -1,0 +1,22 @@
+import { InputType, Field, registerEnumType } from "@nestjs/graphql";
+
+import { TaskStatus } from "generated/prisma";
+
+registerEnumType(TaskStatus, {
+	name: "TaskStatus",
+});
+
+@InputType()
+export class CreateTaskInput {
+	@Field(() => String, { nullable: true })
+	title?: string;
+
+	@Field(() => String, { nullable: true })
+	description?: string;
+
+	@Field(() => TaskStatus, { nullable: true })
+	status?: TaskStatus;
+
+	@Field(() => Date, { nullable: true })
+	expireAt?: Date;
+}
