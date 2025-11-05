@@ -1,3 +1,9 @@
+import Link from "next/link";
+
 export default function Home() {
-	return <div>トップページ</div>;
+	return (
+		<div>
+			<Link href={"signin"}>サインイン</Link>
+		</div>
+	);
 }

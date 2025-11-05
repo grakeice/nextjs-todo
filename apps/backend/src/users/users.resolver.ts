@@ -20,10 +20,10 @@ export class UsersResolver {
 	}
 
 	// 削除すべきかもしれない
-	@Query(() => [User], { name: "users" })
-	findAll() {
-		return this.usersService.findAll();
-	}
+	// @Query(() => [User], { name: "users" })
+	// findAll() {
+	// 	return this.usersService.findAll();
+	// }
 
 	@Query(() => User, { name: "user" })
 	@UseGuards(JwtAuthGuard)

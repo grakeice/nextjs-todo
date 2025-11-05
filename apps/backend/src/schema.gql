@@ -41,8 +41,7 @@ type LoginResponse {
 }
 
 type Query {
-  users: [User!]!
-  user(id: String, email: String): User!
+  user(email: String): User!
   tasks: [Task!]!
   task(id: String!): Task!
 }
@@ -50,7 +49,7 @@ type Query {
 type Mutation {
   createUser(data: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: String!): User!
+  removeUser: User!
   signIn(data: LoginUserInput!): LoginResponse!
   createTask(data: CreateTaskInput!): Task!
   updateTask(id: String!, data: UpdateTaskInput!): Task!
