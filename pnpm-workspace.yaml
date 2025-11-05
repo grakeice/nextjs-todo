@@ -3,6 +3,7 @@ packages:
 
 onlyBuiltDependencies:
   - "@nestjs/core"
+  - "@parcel/watcher"
   - "@tailwindcss/oxide"
   - sharp
   - unrs-resolver
