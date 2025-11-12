@@ -21,7 +21,6 @@ export class AuthResolver {
 		@Args("data", { type: () => LoginUserInput })
 		_: LoginUserInput,
 		@Context() context: { user: User; req: Request; res: Response },
-		// @Res({ passthrough: true }) response: Response,
 	) {
 		const ONE_HOUR = 3600 * 1000;
 		const { access_token, user } = this.authService.signIn(context.user);
@@ -32,6 +31,6 @@ export class AuthResolver {
 				maxAge: ONE_HOUR,
 			}),
 		);
-		return { access_token, user };
+		return { user };
 	}
 }
