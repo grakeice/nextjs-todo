@@ -1,9 +1,12 @@
-import Link from "next/link";
+"use client";
+
+import { use } from "react";
+
+import { AccountContext } from "@/context/AccountContext";
+
+import SignIn from "./signin/page";
 
 export default function Home() {
-	return (
-		<div>
-			<Link href={"signin"}>サインイン</Link>
-		</div>
-	);
+	const user = use(AccountContext);
+	return <>{!user?.signedIn && <SignIn />}</>;
 }

@@ -6,6 +6,7 @@ import type { JSX } from "react";
 import { gql } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -24,7 +25,11 @@ import {
 	FieldGroup,
 	FieldLabel,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+} from "@/components/ui/input-group";
 import { type LoginResponse } from "@/generated/graphql";
 
 const formSchema = z.object({
@@ -72,7 +77,7 @@ export default function Page(): JSX.Element {
 	const [signIn] = useMutation<LoginResponse>(SIGN_IN);
 
 	return (
-		<div className={"flex h-dvh w-full items-center justify-center"}>
+		<div className={"flex h-full w-full items-center justify-center"}>
 			<form
 				className={"flex w-full"}
 				onSubmit={form.handleSubmit(onSubmit)}
@@ -89,10 +94,19 @@ export default function Page(): JSX.Element {
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
 										<FieldLabel>Email</FieldLabel>
-										<Input
-											{...field}
-											aria-invalid={fieldState.invalid}
-										/>
+										<InputGroup>
+											<InputGroupAddon>
+												<MailIcon />
+											</InputGroupAddon>
+											<InputGroupInput
+												{...field}
+												placeholder={"Email"}
+												type={"email"}
+												aria-invalid={
+													fieldState.invalid
+												}
+											/>
+										</InputGroup>
 										{fieldState.invalid && (
 											<FieldError
 												errors={[fieldState.error]}
@@ -107,11 +121,19 @@ export default function Page(): JSX.Element {
 								render={({ field, fieldState }) => (
 									<Field>
 										<FieldLabel>Password</FieldLabel>
-										<Input
-											{...field}
-											type={"password"}
-											aria-invalid={fieldState.invalid}
-										/>
+										<InputGroup>
+											<InputGroupAddon>
+												<KeyRoundIcon />
+											</InputGroupAddon>
+											<InputGroupInput
+												{...field}
+												type={"password"}
+												placeholder={"Password"}
+												aria-invalid={
+													fieldState.invalid
+												}
+											/>
+										</InputGroup>
 										{fieldState.invalid && (
 											<FieldError
 												errors={[fieldState.error]}
