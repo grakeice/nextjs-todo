@@ -1,6 +1,9 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Context, Mutation, Resolver } from "@nestjs/graphql";
 
+import { serialize } from "cookie";
+import type { Request, Response } from "express";
+
 import type { User } from "@/users/entities/user.entity";
 
 import { AuthService } from "./auth.service";
@@ -17,8 +20,18 @@ export class AuthResolver {
 	signIn(
 		@Args("data", { type: () => LoginUserInput })
 		_: LoginUserInput,
-		@Context() context: { user: User },
+		@Context() context: { user: User; req: Request; res: Response },
+		// @Res({ passthrough: true }) response: Response,
 	) {
-		return this.authService.signIn(context.user);
+		const ONE_HOUR = 3600 * 1000;
+		const { access_token, user } = this.authService.signIn(context.user);
+		context.res.setHeader(
+			"Set-Cookie",
+			serialize("access_token", access_token, {
+				httpOnly: true,
+				maxAge: ONE_HOUR,
+			}),
+		);
+		return { access_token, user };
 	}
 }

@@ -7,7 +7,6 @@ import type { LoginUserInput } from "../dto/login-user.input";
 interface GqlAuthContext {
 	data: LoginUserInput;
 }
-
 export class GqlAuthGuard extends AuthGuard("local") {
 	constructor() {
 		super();

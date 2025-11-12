@@ -4,6 +4,8 @@ import { GraphQLModule } from "@nestjs/graphql";
 
 import path from "node:path";
 
+import type { Request, Response } from "express";
+
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
@@ -16,6 +18,10 @@ import { UsersModule } from "./users/users.module";
 		GraphQLModule.forRoot<ApolloDriverConfig>({
 			autoSchemaFile: path.join(process.cwd(), "src/schema.gql"),
 			driver: ApolloDriver,
+			context: ({ req, res }: { req: Request; res: Response }) => ({
+				req,
+				res,
+			}),
 		}),
 		UsersModule,
 		AuthModule,
