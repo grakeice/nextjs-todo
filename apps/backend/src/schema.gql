@@ -50,6 +50,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser: User!
   signIn(data: LoginUserInput!): LoginResponse!
+  signOut: String!
   createTask(data: CreateTaskInput!): Task!
   updateTask(id: String!, data: UpdateTaskInput!): Task!
   removeTask(id: String!): Task!
