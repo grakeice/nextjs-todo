@@ -22,13 +22,15 @@ export class AuthResolver {
 		_: LoginUserInput,
 		@Context() context: { user: User; req: Request; res: Response },
 	) {
-		const ONE_HOUR = 3600 * 1000;
+		const ONE_HOUR = 3600;
 		const { access_token, user } = this.authService.signIn(context.user);
 		context.res.setHeader(
 			"Set-Cookie",
 			serialize("access_token", access_token, {
 				httpOnly: true,
 				maxAge: ONE_HOUR,
+				sameSite: "none",
+				secure: true,
 			}),
 		);
 		return { user };

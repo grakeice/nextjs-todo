@@ -44,6 +44,7 @@
 		"eslint": "^9.39.1",
 		"eslint-config-next": "16.0.1",
 		"eslint-config-prettier": "^10.1.8",
+		"eslint-module-utils": "^2.12.1",
 		"eslint-plugin-react-hooks": "^7.0.1",
 		"prettier": "^3.6.2",
 		"prettier-plugin-tailwindcss": "^0.7.1",
