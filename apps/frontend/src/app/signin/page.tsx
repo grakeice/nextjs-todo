@@ -1,10 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import type { JSX } from "react";
 
-import { gql } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
@@ -30,28 +28,24 @@ import {
 	InputGroupAddon,
 	InputGroupInput,
 } from "@/components/ui/input-group";
-import { type LoginResponse } from "@/generated/graphql";
-
-const formSchema = z.object({
-	email: z.email(),
-	password: z.string(),
-});
+import { AccountContext, signInSchema } from "@/context/AccountContext";
 
 export default function Page(): JSX.Element {
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const user = use(AccountContext);
+	const form = useForm<z.infer<typeof signInSchema>>({
+		resolver: zodResolver(signInSchema),
 		defaultValues: {
 			email: "",
 			password: "",
 		},
 	});
 
-	const onSubmit = async (data: z.infer<typeof formSchema>) => {
-		const res = await signIn({ variables: { ...data } });
+	const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+		const res = await user?.signIn(data.email, data.password);
 		toast("Response: ", {
 			description: (
 				<pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-					<code>{JSON.stringify(res.data, null, 2)}</code>
+					<code>{JSON.stringify(res, null, 2)}</code>
 				</pre>
 			),
 			position: "bottom-right",
@@ -63,18 +57,6 @@ export default function Page(): JSX.Element {
 			} as React.CSSProperties,
 		});
 	};
-
-	const SIGN_IN = gql`
-		mutation SignIn($email: String!, $password: String!) {
-			signIn(data: { email: $email, password: $password }) {
-				user {
-					id
-				}
-			}
-		}
-	`;
-
-	const [signIn] = useMutation<LoginResponse>(SIGN_IN);
 
 	return (
 		<div className={"flex h-full w-full items-center justify-center"}>

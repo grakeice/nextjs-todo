@@ -36,6 +36,13 @@ export function Header(): JSX.Element {
 									<Link href={"/"}>Todo App</Link>
 								</NavigationMenuLink>
 							</NavigationMenuItem>
+							<NavigationMenuItem>
+								<NavigationMenuLink
+									onClick={async () => await user?.signOut()}
+								>
+									サインアウト
+								</NavigationMenuLink>
+							</NavigationMenuItem>
 						</NavigationMenuList>
 					</div>
 					<div className={"flex flex-row items-center"}>
@@ -46,7 +53,6 @@ export function Header(): JSX.Element {
 										className={"cursor-pointer"}
 									>
 										<Avatar>
-											{/* <AvatarImage /> */}
 											<AvatarFallback>
 												<User2Icon />
 											</AvatarFallback>

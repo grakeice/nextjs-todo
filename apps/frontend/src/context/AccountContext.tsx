@@ -8,13 +8,17 @@ import {
 } from "react";
 
 import { gql } from "@apollo/client";
-import { useMutation, useQuery } from "@apollo/client/react";
+import { useMutation, useQuery, useSuspenseQuery } from "@apollo/client/react";
+import { z } from "zod";
 
 import type { LoginResponse, Query, User } from "@/generated/graphql";
 
 interface AccountContextValues {
 	data: Pick<User, "id" | "email" | "name"> | null;
-	signIn: (email: string, password: string) => Promise<void>;
+	signIn: (
+		email: string,
+		password: string,
+	) => Promise<LoginResponse | undefined>;
 	signOut: () => Promise<void>;
 	signedIn: boolean;
 }
@@ -22,6 +26,11 @@ interface AccountContextValues {
 export const AccountContext = createContext<AccountContextValues | undefined>(
 	undefined,
 );
+
+export const signInSchema = z.object({
+	email: z.email(),
+	password: z.string(),
+});
 
 const SIGN_IN = gql`
 	mutation SignIn($email: String!, $password: String!) {
@@ -44,47 +53,46 @@ export function AccountProvider({ ...props }: PropsWithChildren): JSX.Element {
 		User,
 		"id" | "email" | "name"
 	> | null>(null);
-	const [signedIn, setSignedIn] = useState(false);
 
 	const [signIn] = useMutation<LoginResponse>(SIGN_IN);
-
 	const [signOut] = useMutation(SIGN_OUT);
 
-	const { data } = useQuery<Query>(gql`
-		query {
-			user {
-				id
-				email
-				name
+	const { data } = useSuspenseQuery<Query>(
+		gql`
+			query {
+				user {
+					id
+					email
+					name
+				}
 			}
-		}
-	`);
-	if (data?.user) {
-		setUserData(data.user);
-		setSignedIn(true);
-	}
+		`,
+		{ errorPolicy: "ignore" },
+	);
 	console.log(data?.user);
+
+	const value: AccountContextValues = {
+		get signedIn() {
+			if (data?.user) return true;
+			else return false;
+		},
+		data: userData,
+		async signIn(email, password) {
+			const { data } = await signIn({
+				variables: z.parse(signInSchema, { email, password }),
+			});
+			if (data) {
+				setUserData(data.user);
+			}
+			return data;
+		},
+		async signOut() {
+			await signOut();
+			setUserData(null);
+		},
+	};
 	return (
-		<AccountContext.Provider
-			value={{
-				signedIn,
-				data: userData,
-				async signIn(email, password) {
-					const { data } = await signIn({
-						variables: { email, password },
-					});
-					if (data) {
-						setUserData(data.user);
-						setSignedIn(true);
-					}
-				},
-				async signOut() {
-					await signOut();
-					setUserData(null);
-					setSignedIn(false);
-				},
-			}}
-		>
+		<AccountContext.Provider value={value}>
 			{props.children}
 		</AccountContext.Provider>
 	);

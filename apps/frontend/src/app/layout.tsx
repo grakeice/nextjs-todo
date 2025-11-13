@@ -33,9 +33,9 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<Header />
 				<ApolloWrapper>
 					<AccountProvider>
+						<Header />
 						<div
 							className={
 								"absolute top-0 left-0 h-screen w-screen overflow-hidden py-16"
