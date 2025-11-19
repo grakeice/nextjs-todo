@@ -11,7 +11,7 @@ import {
 } from "@apollo/client-integration-nextjs";
 
 // have a function to create a client for you
-function makeClient() {
+export function makeClient() {
 	const httpLink = new HttpLink({
 		// this needs to be an absolute url, as relative urls cannot be used in SSR
 		uri: "http://127.0.0.1:4000/graphql",

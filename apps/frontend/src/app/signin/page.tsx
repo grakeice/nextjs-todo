@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use } from "react";
+import React from "react";
 import type { JSX } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,10 +28,12 @@ import {
 	InputGroupAddon,
 	InputGroupInput,
 } from "@/components/ui/input-group";
-import { AccountContext, signInSchema } from "@/context/AccountContext";
+import { signInSchema } from "@/context/AccountContext";
+import { useAccount } from "@/hooks/useAccount";
 
 export default function Page(): JSX.Element {
-	const user = use(AccountContext);
+	// const user = use(AccountContext);
+	const { signIn } = useAccount();
 	const form = useForm<z.infer<typeof signInSchema>>({
 		resolver: zodResolver(signInSchema),
 		defaultValues: {
@@ -41,7 +43,7 @@ export default function Page(): JSX.Element {
 	});
 
 	const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-		const res = await user?.signIn(data.email, data.password);
+		const res = await signIn(data.email, data.password);
 		toast("Response: ", {
 			description: (
 				<pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">

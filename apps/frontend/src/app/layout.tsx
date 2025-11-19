@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { Header } from "@/components/common/Header";
 import { Toaster } from "@/components/ui/sonner";
-import { AccountProvider } from "@/context/AccountContext";
 import { ApolloWrapper } from "@/graphql/ApolloWrapper";
 
 import "./globals.css";
@@ -34,18 +33,16 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<ApolloWrapper>
-					<AccountProvider>
-						<Header />
-						<div
-							className={
-								"absolute top-0 left-0 h-screen w-screen overflow-hidden py-16"
-							}
-						>
-							<div className="container mx-auto h-full">
-								{children}
-							</div>
+					<Header />
+					<div
+						className={
+							"absolute top-0 left-0 h-screen w-screen overflow-hidden py-16"
+						}
+					>
+						<div className="container mx-auto h-full">
+							{children}
 						</div>
-					</AccountProvider>
+					</div>
 				</ApolloWrapper>
 				<Toaster />
 			</body>

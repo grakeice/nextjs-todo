@@ -1,11 +1,13 @@
 "use client";
 
-import { use, type JSX } from "react";
+import { Suspense, type JSX } from "react";
 
+import { useAtomValue } from "jotai";
 import { User2Icon } from "lucide-react";
 import Link from "next/link";
 
-import { AccountContext } from "@/context/AccountContext";
+import { userData } from "@/atoms/userData";
+import { useAccount } from "@/hooks/useAccount";
 
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import {
@@ -17,7 +19,8 @@ import {
 } from "../ui/navigation-menu";
 
 export function Header(): JSX.Element {
-	const user = use(AccountContext);
+	const { signOut } = useAccount();
+	const { signedIn } = useAtomValue(userData);
 	return (
 		<header
 			className={
@@ -38,7 +41,7 @@ export function Header(): JSX.Element {
 							</NavigationMenuItem>
 							<NavigationMenuItem>
 								<NavigationMenuLink
-									onClick={async () => await user?.signOut()}
+									onClick={async () => await signOut()}
 								>
 									サインアウト
 								</NavigationMenuLink>
@@ -48,23 +51,25 @@ export function Header(): JSX.Element {
 					<div className={"flex flex-row items-center"}>
 						<NavigationMenuList>
 							<NavigationMenuItem>
-								{user?.signedIn ? (
-									<NavigationMenuTrigger
-										className={"cursor-pointer"}
-									>
-										<Avatar>
-											<AvatarFallback>
-												<User2Icon />
-											</AvatarFallback>
-										</Avatar>
-									</NavigationMenuTrigger>
-								) : (
-									<NavigationMenuLink asChild>
-										<Link href={"signup"}>
-											サインアップ
-										</Link>
-									</NavigationMenuLink>
-								)}
+								<Suspense>
+									{signedIn ? (
+										<NavigationMenuTrigger
+											className={"cursor-pointer"}
+										>
+											<Avatar>
+												<AvatarFallback>
+													<User2Icon />
+												</AvatarFallback>
+											</Avatar>
+										</NavigationMenuTrigger>
+									) : (
+										<NavigationMenuLink asChild>
+											<Link href={"signup"}>
+												サインアップ
+											</Link>
+										</NavigationMenuLink>
+									)}
+								</Suspense>
 							</NavigationMenuItem>
 						</NavigationMenuList>
 					</div>
