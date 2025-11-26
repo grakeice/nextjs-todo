@@ -60,19 +60,12 @@ export function Header(): JSX.Element {
 										</NavigationMenuLink>
 									</NavigationMenuItem>
 									<NavigationMenuItem>
-										{/* <NavigationMenuTrigger
-											className={"cursor-pointer"}
-										> */}
-
 										<Avatar>
 											<AvatarFallback>
 												<User2Icon />
 											</AvatarFallback>
 										</Avatar>
-										{/* </NavigationMenuTrigger> */}
-										{/* <NavigationMenuContent> */}
 									</NavigationMenuItem>
-									{/* </NavigationMenuContent> */}
 								</>
 							) : (
 								<NavigationMenuItem>

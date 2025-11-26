@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { AppSidebar } from "@/components/common/AppSidebar";
-import { Header } from "@/components/common/Header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { ApolloWrapper } from "@/graphql/ApolloWrapper";
@@ -39,7 +38,6 @@ export default function RootLayout({
 						<div className={"flex w-screen flex-row"}>
 							<AppSidebar />
 							<div className={"h-screen w-full overflow-hidden"}>
-								<Header />
 								<div className="mx-auto h-full">{children}</div>
 							</div>
 						</div>

@@ -9,6 +9,7 @@ import {
 	CircleDashedIcon,
 	HomeIcon,
 	PlusIcon,
+	Settings2Icon,
 	User2Icon,
 } from "lucide-react";
 
@@ -16,6 +17,7 @@ import { Avatar, AvatarFallback } from "../../ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import {
@@ -61,7 +63,7 @@ export function AppSidebar(): JSX.Element {
 								<SidebarMenuButton asChild>
 									<Link href={"/"}>
 										<HomeIcon />
-										<span>Home</span>
+										<span>ホーム</span>
 									</Link>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
@@ -116,9 +118,17 @@ export function AppSidebar(): JSX.Element {
 							</DropdownMenuTrigger>
 							<DropdownMenuContent
 								side={"right"}
-								className={"w-(--radix-popper-anchor-width)"}
+								className={
+									"w-(--radix-popper-anchor-width) **:data-[slot=dropdown-menu-item]:cursor-pointer"
+								}
 							>
-								<SignOutButton />
+								<DropdownMenuItem asChild>
+									<SignOutButton />
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									<Settings2Icon />
+									<span>設定</span>
+								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</SidebarMenuItem>

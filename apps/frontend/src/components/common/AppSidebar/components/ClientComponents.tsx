@@ -3,6 +3,7 @@
 import type { ComponentProps, JSX } from "react";
 
 import { useAtomValue } from "jotai";
+import { LogOutIcon } from "lucide-react";
 
 import { userData } from "@/atoms/userData";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -11,10 +12,8 @@ import { useAccount } from "@/hooks/useAccount";
 export function SignOutButton(): JSX.Element {
 	const { signOut } = useAccount();
 	return (
-		<DropdownMenuItem
-			className={"cursor-pointer"}
-			onClick={async () => await signOut()}
-		>
+		<DropdownMenuItem onClick={async () => await signOut()}>
+			<LogOutIcon />
 			<span>サインアウト</span>
 		</DropdownMenuItem>
 	);
