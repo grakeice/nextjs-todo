@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -25,8 +27,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
 	children,
+	modal,
 }: Readonly<{
-	children: React.ReactNode;
+	children: ReactNode;
+	modal: ReactNode;
 }>) {
 	return (
 		<html lang="ja">
@@ -38,7 +42,10 @@ export default function RootLayout({
 						<div className={"flex w-screen flex-row"}>
 							<AppSidebar />
 							<div className={"h-screen w-full overflow-hidden"}>
-								<div className="mx-auto h-full">{children}</div>
+								<div className="mx-auto h-full">
+									{children}
+									{modal}
+								</div>
 							</div>
 						</div>
 					</SidebarProvider>

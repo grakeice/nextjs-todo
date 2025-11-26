@@ -43,10 +43,12 @@ export function AppSidebar(): JSX.Element {
 		<Sidebar>
 			<SidebarHeader>
 				<SidebarMenu>
-					<SidebarMenuItem className={"cursor-default select-none"}>
-						<span className={"ml-2 text-2xl font-black"}>
-							Todo App
-						</span>
+					<SidebarMenuItem className={"cursor-pointer select-none"}>
+						<Link href={"/"}>
+							<span className={"ml-2 text-2xl font-black"}>
+								Todo App
+							</span>
+						</Link>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
@@ -68,10 +70,12 @@ export function AppSidebar(): JSX.Element {
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
-								<SidebarMenuButton>
-									<PlusIcon />
-									<span>新規タスク</span>
-								</SidebarMenuButton>
+								<Link href={"/new"}>
+									<SidebarMenuButton>
+										<PlusIcon />
+										<span>新規タスク</span>
+									</SidebarMenuButton>
+								</Link>
 							</SidebarMenuItem>
 						</SidebarMenu>
 					</SidebarGroupContent>
