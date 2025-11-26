@@ -1,3 +1,5 @@
+"use client";
+
 import { gql } from "@apollo/client";
 import "@apollo/client/react";
 import { atom } from "jotai";

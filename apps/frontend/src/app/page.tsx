@@ -8,11 +8,12 @@ import { userData } from "@/atoms/userData";
 
 import SignIn from "./signin/page";
 
+function Page() {
+	const { signedIn } = useAtomValue(userData);
+	return <>{!signedIn && <SignIn />}</>;
+}
+
 export default function Home() {
-	const Page = () => {
-		const { signedIn } = useAtomValue(userData);
-		return <>{!signedIn && <SignIn />}</>;
-	};
 	return (
 		<>
 			<Suspense fallback={"loading…"}>

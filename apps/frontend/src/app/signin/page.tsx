@@ -28,8 +28,8 @@ import {
 	InputGroupAddon,
 	InputGroupInput,
 } from "@/components/ui/input-group";
-import { signInSchema } from "@/context/AccountContext";
 import { useAccount } from "@/hooks/useAccount";
+import { signInSchema } from "@/schema/signInSchema";
 
 export default function Page(): JSX.Element {
 	// const user = use(AccountContext);

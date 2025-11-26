@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { AppSidebar } from "@/components/common/AppSidebar";
 import { Header } from "@/components/common/Header";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { ApolloWrapper } from "@/graphql/ApolloWrapper";
 
@@ -33,16 +35,15 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<ApolloWrapper>
-					<Header />
-					<div
-						className={
-							"absolute top-0 left-0 h-screen w-screen overflow-hidden py-16"
-						}
-					>
-						<div className="container mx-auto h-full">
-							{children}
+					<SidebarProvider>
+						<div className={"flex w-screen flex-row"}>
+							<AppSidebar />
+							<div className={"h-screen w-full overflow-hidden"}>
+								<Header />
+								<div className="mx-auto h-full">{children}</div>
+							</div>
 						</div>
-					</div>
+					</SidebarProvider>
 				</ApolloWrapper>
 				<Toaster />
 			</body>
