@@ -4,10 +4,8 @@ import { type JSX } from "react";
 
 import Link from "next/link";
 
-import { useAtomValue } from "jotai";
 import { User2Icon } from "lucide-react";
 
-import { userData } from "@/atoms/userData";
 import { useAccount } from "@/hooks/useAccount";
 
 import { Avatar, AvatarFallback } from "../ui/avatar";
@@ -20,8 +18,7 @@ import {
 import { SidebarTrigger } from "../ui/sidebar";
 
 export function Header(): JSX.Element {
-	const { signOut } = useAccount();
-	const { signedIn } = useAtomValue(userData);
+	const data = useAccount();
 	return (
 		<header
 			className={
@@ -47,14 +44,11 @@ export function Header(): JSX.Element {
 					</div>
 					<div className={"flex flex-row items-center"}>
 						<NavigationMenuList>
-							{signedIn ? (
+							{data?.user ? (
 								<>
 									<NavigationMenuItem>
 										<NavigationMenuLink
 											className={"cursor-pointer"}
-											onClick={async () =>
-												await signOut()
-											}
 										>
 											サインアウト
 										</NavigationMenuLink>

@@ -4,6 +4,7 @@ import React from "react";
 import type { JSX } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -28,12 +29,15 @@ import {
 	InputGroupAddon,
 	InputGroupInput,
 } from "@/components/ui/input-group";
-import { useAccount } from "@/hooks/useAccount";
+import { graphql } from "@/graphql";
+import { execute } from "@/graphql/execute";
+import type { SignInMutation } from "@/graphql/graphql";
+// import { useAccount } from "@/hooks/useAccount_legacy";
 import { signInSchema } from "@/schema/signInSchema";
 
 export default function Page(): JSX.Element {
 	// const user = use(AccountContext);
-	const { signIn } = useAccount();
+	// const { signIn } = useAccount();
 	const form = useForm<z.infer<typeof signInSchema>>({
 		resolver: zodResolver(signInSchema),
 		defaultValues: {
@@ -41,9 +45,34 @@ export default function Page(): JSX.Element {
 			password: "",
 		},
 	});
-
+	const signIn = useMutation({
+		mutationKey: ["user"],
+		mutationFn: (data: { email: string; password: string }) =>
+			execute(
+				graphql(`
+					mutation SignIn($email: String!, $password: String!) {
+						signIn(data: { email: $email, password: $password }) {
+							user {
+								id
+								email
+								name
+							}
+						}
+					}
+				`),
+				{
+					...data,
+				},
+			),
+	});
 	const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-		const res = await signIn(data.email, data.password);
+		// const res = await signIn(data.email, data.password);
+		let res: SignInMutation["signIn"]["user"] | null = null;
+		signIn.mutate(data, {
+			onSuccess: (data) => {
+				res = data.signIn.user;
+			},
+		});
 		toast("Response: ", {
 			description: (
 				<pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">

@@ -33,7 +33,11 @@ export class UsersResolver {
 	) {
 		const id = context.req.user.id;
 
-		return await this.usersService.findUnique({ where: { id, email } });
+		const res = await this.usersService.findUnique({
+			where: { id, email },
+		});
+		console.log(res);
+		return res;
 	}
 
 	@Mutation(() => User)
