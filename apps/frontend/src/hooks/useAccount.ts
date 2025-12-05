@@ -6,8 +6,8 @@ import { execute } from "@/graphql/execute";
 export function useAccount() {
 	const data = useQuery({
 		queryKey: ["user"],
-		queryFn() {
-			const a = execute(
+		queryFn: () =>
+			execute(
 				graphql(`
 					query getUserData {
 						user {
@@ -17,11 +17,8 @@ export function useAccount() {
 						}
 					}
 				`),
-			);
-			a.then((v) => console.log(v));
-			return a;
-		},
+			),
 	});
-	console.log(data.data, "aaaa");
+
 	return data.data;
 }
