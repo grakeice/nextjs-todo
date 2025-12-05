@@ -11,6 +11,8 @@ import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
 import { useAccount } from "@/hooks/useAccount";
 
+import { queryClient } from "../../GqlClientProvider";
+
 // import { useAccount } from "@/hooks/useAccount_legacy";
 
 export function SignOutButton(): JSX.Element {
@@ -24,9 +26,16 @@ export function SignOutButton(): JSX.Element {
 					}
 				`),
 			),
+		onSuccess: () => {
+			queryClient.refetchQueries();
+		},
 	});
 	return (
-		<DropdownMenuItem onClick={() => signOut.mutate()}>
+		<DropdownMenuItem
+			onClick={() => {
+				signOut.mutate();
+			}}
+		>
 			<LogOutIcon />
 			<span>サインアウト</span>
 		</DropdownMenuItem>
@@ -34,11 +43,11 @@ export function SignOutButton(): JSX.Element {
 }
 
 export function UserName(props: ComponentProps<"span">): JSX.Element {
-	const data = useAccount();
-	return <span {...props}>{data?.user?.name}</span>;
+	const { data } = useAccount();
+	return <span {...props}>{data?.user.name}</span>;
 }
 
 export function UserEmail(props: ComponentProps<"span">): JSX.Element {
-	const data = useAccount();
+	const { data } = useAccount();
 	return <span {...props}>{data?.user?.email}</span>;
 }

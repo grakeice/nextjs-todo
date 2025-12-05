@@ -36,7 +36,7 @@ export class UsersResolver {
 		const res = await this.usersService.findUnique({
 			where: { id, email },
 		});
-		console.log(res);
+		// console.log(res);
 		return res;
 	}
 

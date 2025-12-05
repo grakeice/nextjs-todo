@@ -4,7 +4,7 @@ import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
 
 export function useAccount() {
-	const data = useQuery({
+	const query = useQuery({
 		queryKey: ["user"],
 		queryFn: () =>
 			execute(
@@ -20,5 +20,5 @@ export function useAccount() {
 			),
 	});
 
-	return data.data;
+	return query;
 }

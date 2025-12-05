@@ -10,6 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { queryClient } from "@/components/common/GqlClientProvider";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -31,13 +32,9 @@ import {
 } from "@/components/ui/input-group";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
-import type { SignInMutation } from "@/graphql/graphql";
-// import { useAccount } from "@/hooks/useAccount_legacy";
 import { signInSchema } from "@/schema/signInSchema";
 
 export default function Page(): JSX.Element {
-	// const user = use(AccountContext);
-	// const { signIn } = useAccount();
 	const form = useForm<z.infer<typeof signInSchema>>({
 		resolver: zodResolver(signInSchema),
 		defaultValues: {
@@ -66,26 +63,24 @@ export default function Page(): JSX.Element {
 			),
 	});
 	const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-		// const res = await signIn(data.email, data.password);
-		let res: SignInMutation["signIn"]["user"] | null = null;
 		signIn.mutate(data, {
-			onSuccess: (data) => {
-				res = data.signIn.user;
+			onSettled: (data) => {
+				queryClient.refetchQueries();
+				toast("Response: ", {
+					description: (
+						<pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
+							<code>{JSON.stringify(data?.signIn, null, 2)}</code>
+						</pre>
+					),
+					position: "bottom-right",
+					classNames: {
+						content: "flex flex-col gap-2",
+					},
+					style: {
+						"--border-radius": "calc(var(--radius)  + 4px)",
+					} as React.CSSProperties,
+				});
 			},
-		});
-		toast("Response: ", {
-			description: (
-				<pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-					<code>{JSON.stringify(res, null, 2)}</code>
-				</pre>
-			),
-			position: "bottom-right",
-			classNames: {
-				content: "flex flex-col gap-2",
-			},
-			style: {
-				"--border-radius": "calc(var(--radius)  + 4px)",
-			} as React.CSSProperties,
 		});
 	};
 

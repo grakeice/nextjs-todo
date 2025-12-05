@@ -9,5 +9,24 @@ export async function execute<TResult, TVariables>(
 	const client = new GraphQLClient("http://127.0.0.1:4000/graphql", {
 		credentials: "include",
 	});
-	return client.request(query, { ...variables });
+
+	try {
+		return await client.request(query, { ...variables });
+	} catch (error: unknown) {
+		// unauthorized エラーの場合は静かに null を返す
+		if (error instanceof Error && "response" in error) {
+			const graphQLError = error as {
+				response?: { errors?: Array<{ message?: string }> };
+			};
+			if (
+				graphQLError?.response?.errors?.[0]?.message
+					?.toLowerCase()
+					.includes("unauthorized")
+			) {
+				return null as TResult;
+			}
+		}
+		// その他のエラーは再スロー
+		throw error;
+	}
 }

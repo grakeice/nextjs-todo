@@ -18,7 +18,7 @@ import {
 import { SidebarTrigger } from "../ui/sidebar";
 
 export function Header(): JSX.Element {
-	const data = useAccount();
+	const { data } = useAccount();
 	return (
 		<header
 			className={
