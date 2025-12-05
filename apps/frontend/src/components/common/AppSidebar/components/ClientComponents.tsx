@@ -2,11 +2,14 @@
 
 import type { ComponentProps, JSX } from "react";
 
+import Link from "next/link";
+
 import { useMutation } from "@tanstack/react-query";
-import { LogOutIcon } from "lucide-react";
+import { LogOutIcon, PlusIcon } from "lucide-react";
 
 // import { userData } from "@/atoms/userData";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
 import { useAccount } from "@/hooks/useAccount";
@@ -50,4 +53,18 @@ export function UserName(props: ComponentProps<"span">): JSX.Element {
 export function UserEmail(props: ComponentProps<"span">): JSX.Element {
 	const { data } = useAccount();
 	return <span {...props}>{data?.user?.email}</span>;
+}
+
+export function NewTaskButton(
+	props: Omit<ComponentProps<typeof Link>, "href">,
+) {
+	const { data } = useAccount();
+	return (
+		<Link href={data?.user ? "/new" : ""} {...props}>
+			<SidebarMenuButton>
+				<PlusIcon />
+				<span>新規タスク</span>
+			</SidebarMenuButton>
+		</Link>
+	);
 }

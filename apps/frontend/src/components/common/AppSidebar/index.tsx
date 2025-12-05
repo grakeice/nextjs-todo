@@ -8,7 +8,6 @@ import {
 	ChevronsUpDownIcon,
 	CircleDashedIcon,
 	HomeIcon,
-	PlusIcon,
 	Settings2Icon,
 	User2Icon,
 } from "lucide-react";
@@ -33,6 +32,7 @@ import {
 	SidebarMenuItem,
 } from "../../ui/sidebar";
 import {
+	NewTaskButton,
 	SignOutButton,
 	UserEmail,
 	UserName,
@@ -70,12 +70,7 @@ export function AppSidebar(): JSX.Element {
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
-								<Link href={"/new"}>
-									<SidebarMenuButton>
-										<PlusIcon />
-										<span>新規タスク</span>
-									</SidebarMenuButton>
-								</Link>
+								<NewTaskButton />
 							</SidebarMenuItem>
 						</SidebarMenu>
 					</SidebarGroupContent>

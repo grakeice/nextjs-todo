@@ -3,6 +3,8 @@
 import React from "react";
 import type { JSX } from "react";
 
+import Link from "next/link";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
@@ -158,6 +160,12 @@ export default function Page(): JSX.Element {
 						<Button type={"submit"} className={"w-full"}>
 							サインイン
 						</Button>
+						<p className={"text-sm text-gray-700"}>
+							<span>アカウントを持っていませんか？: </span>
+							<Link href={"/signup"} className={"underline"}>
+								サインアップ
+							</Link>
+						</p>
 					</CardFooter>
 				</Card>
 			</form>

@@ -2,6 +2,7 @@
 
 import type { JSX } from "react";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -262,6 +263,12 @@ export default function Page(): JSX.Element {
 						<Button type={"submit"} className={"w-full"}>
 							サインアップ
 						</Button>
+						<p className={"text-sm text-gray-700"}>
+							<span>既にアカウントを持っていますか？: </span>
+							<Link href={"/signin"} className={"underline"}>
+								サインイン
+							</Link>
+						</p>
 					</CardFooter>
 				</Card>
 			</form>
