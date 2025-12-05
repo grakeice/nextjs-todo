@@ -1,6 +1,6 @@
 import { ObjectType, Field, registerEnumType, ID } from "@nestjs/graphql";
 
-import { TaskStatus } from "generated/prisma";
+import { TaskStatus } from "generated/prisma/client";
 
 import { User } from "@/users/entities/user.entity";
 
