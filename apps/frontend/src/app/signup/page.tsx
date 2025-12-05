@@ -140,14 +140,16 @@ export default function Page(): JSX.Element {
 								name={"name"}
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel>User Name</FieldLabel>
+										<FieldLabel>ユーザー名</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<CircleUserRoundIcon />
 											</InputGroupAddon>
 											<InputGroupInput
 												{...field}
-												placeholder={"User Name"}
+												placeholder={
+													"ユーザー名を入力…"
+												}
 												type={"text"}
 												aria-invalid={
 													fieldState.invalid
@@ -167,14 +169,16 @@ export default function Page(): JSX.Element {
 								name={"email"}
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel>Email</FieldLabel>
+										<FieldLabel>メールアドレス</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<MailIcon />
 											</InputGroupAddon>
 											<InputGroupInput
 												{...field}
-												placeholder={"Email"}
+												placeholder={
+													"メールアドレスを入力…"
+												}
 												type={"email"}
 												aria-invalid={
 													fieldState.invalid
@@ -195,7 +199,7 @@ export default function Page(): JSX.Element {
 								name={"password"}
 								render={({ field, fieldState }) => (
 									<Field>
-										<FieldLabel>Password</FieldLabel>
+										<FieldLabel>パスワード</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<KeyRoundIcon />
@@ -203,7 +207,9 @@ export default function Page(): JSX.Element {
 											<InputGroupInput
 												{...field}
 												type={"password"}
-												placeholder={"Password"}
+												placeholder={
+													"パスワードを入力…"
+												}
 												aria-invalid={
 													fieldState.invalid
 												}
@@ -224,7 +230,7 @@ export default function Page(): JSX.Element {
 								render={({ field, fieldState }) => (
 									<Field>
 										<FieldLabel>
-											Confirm password
+											パスワードを確認
 										</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
@@ -233,7 +239,9 @@ export default function Page(): JSX.Element {
 											<InputGroupInput
 												{...field}
 												type={"password"}
-												placeholder={"Confirm password"}
+												placeholder={
+													"パスワードを再入力…"
+												}
 												aria-invalid={
 													fieldState.invalid
 												}
@@ -252,7 +260,7 @@ export default function Page(): JSX.Element {
 					</CardContent>
 					<CardFooter className={"flex-col gap-2"}>
 						<Button type={"submit"} className={"w-full"}>
-							Sign Up
+							サインアップ
 						</Button>
 					</CardFooter>
 				</Card>

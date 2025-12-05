@@ -103,14 +103,14 @@ export default function Page(): JSX.Element {
 								name={"email"}
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel>Email</FieldLabel>
+										<FieldLabel>メールアドレス</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<MailIcon />
 											</InputGroupAddon>
 											<InputGroupInput
 												{...field}
-												placeholder={"Email"}
+												placeholder={"メールアドレス"}
 												type={"email"}
 												aria-invalid={
 													fieldState.invalid
@@ -130,7 +130,7 @@ export default function Page(): JSX.Element {
 								name={"password"}
 								render={({ field, fieldState }) => (
 									<Field>
-										<FieldLabel>Password</FieldLabel>
+										<FieldLabel>パスワード</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<KeyRoundIcon />
@@ -138,7 +138,7 @@ export default function Page(): JSX.Element {
 											<InputGroupInput
 												{...field}
 												type={"password"}
-												placeholder={"Password"}
+												placeholder={"パスワード"}
 												aria-invalid={
 													fieldState.invalid
 												}
@@ -156,7 +156,7 @@ export default function Page(): JSX.Element {
 					</CardContent>
 					<CardFooter className={"flex-col gap-2"}>
 						<Button type={"submit"} className={"w-full"}>
-							Sign In
+							サインイン
 						</Button>
 					</CardFooter>
 				</Card>
