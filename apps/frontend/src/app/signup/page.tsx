@@ -141,7 +141,9 @@ export default function Page(): JSX.Element {
 								name={"name"}
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel>ユーザー名</FieldLabel>
+										<FieldLabel htmlFor={field.name}>
+											ユーザー名
+										</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<CircleUserRoundIcon />
@@ -155,6 +157,8 @@ export default function Page(): JSX.Element {
 												aria-invalid={
 													fieldState.invalid
 												}
+												id={field.name}
+												autoComplete={"off"}
 											/>
 										</InputGroup>
 										{fieldState.invalid && (
@@ -170,7 +174,9 @@ export default function Page(): JSX.Element {
 								name={"email"}
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel>メールアドレス</FieldLabel>
+										<FieldLabel htmlFor={field.name}>
+											メールアドレス
+										</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<MailIcon />
@@ -184,6 +190,7 @@ export default function Page(): JSX.Element {
 												aria-invalid={
 													fieldState.invalid
 												}
+												id={field.name}
 												autoComplete={"username"}
 											/>
 										</InputGroup>
@@ -200,7 +207,9 @@ export default function Page(): JSX.Element {
 								name={"password"}
 								render={({ field, fieldState }) => (
 									<Field>
-										<FieldLabel>パスワード</FieldLabel>
+										<FieldLabel htmlFor={field.name}>
+											パスワード
+										</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<KeyRoundIcon />
@@ -214,6 +223,7 @@ export default function Page(): JSX.Element {
 												aria-invalid={
 													fieldState.invalid
 												}
+												id={field.name}
 												autoComplete={"new-password"}
 											/>
 										</InputGroup>
@@ -230,7 +240,7 @@ export default function Page(): JSX.Element {
 								name={"passwordConfirm"}
 								render={({ field, fieldState }) => (
 									<Field>
-										<FieldLabel>
+										<FieldLabel htmlFor={field.name}>
 											パスワードを確認
 										</FieldLabel>
 										<InputGroup>
@@ -246,6 +256,7 @@ export default function Page(): JSX.Element {
 												aria-invalid={
 													fieldState.invalid
 												}
+												id={field.name}
 												autoComplete={"new-password"}
 											/>
 										</InputGroup>

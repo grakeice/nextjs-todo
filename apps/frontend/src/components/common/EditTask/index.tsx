@@ -9,6 +9,7 @@ import {
 	RectangleEllipsisIcon,
 	TextAlignStartIcon,
 } from "lucide-react";
+import { ja } from "react-day-picker/locale";
 import { Controller, useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -20,7 +21,6 @@ import {
 	FieldGroup,
 	FieldLabel,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import {
 	InputGroup,
 	InputGroupAddon,
@@ -158,7 +158,9 @@ export function EditTask({
 						name={"title"}
 						render={({ field, fieldState }) => (
 							<Field data-invalid={fieldState.invalid}>
-								<FieldLabel>タイトル</FieldLabel>
+								<FieldLabel htmlFor={field.name}>
+									タイトル
+								</FieldLabel>
 								<InputGroup>
 									<InputGroupAddon>
 										<RectangleEllipsisIcon />
@@ -168,6 +170,8 @@ export function EditTask({
 										placeholder={"タイトル"}
 										type={"text"}
 										aria-invalid={fieldState.invalid}
+										id={field.name}
+										autoComplete={"off"}
 									/>
 								</InputGroup>
 								{fieldState.invalid && (
@@ -181,7 +185,9 @@ export function EditTask({
 						name={"description"}
 						render={({ field, fieldState }) => (
 							<Field data-invalid={fieldState.invalid}>
-								<FieldLabel>説明</FieldLabel>
+								<FieldLabel htmlFor={field.name}>
+									説明
+								</FieldLabel>
 								<InputGroup>
 									<InputGroupAddon>
 										<TextAlignStartIcon />
@@ -190,6 +196,8 @@ export function EditTask({
 										{...field}
 										placeholder={"説明"}
 										aria-invalid={fieldState.invalid}
+										id={field.name}
+										autoComplete={"off"}
 									/>
 								</InputGroup>
 								{fieldState.invalid && (
@@ -203,8 +211,15 @@ export function EditTask({
 						name={"expireAt"}
 						render={({ field, fieldState }) => (
 							<Field data-invalid={fieldState.invalid}>
-								<FieldLabel>期限</FieldLabel>
-								<Input {...field} hidden />
+								<FieldLabel htmlFor={field.name}>
+									期限
+								</FieldLabel>
+								<input
+									{...field}
+									id={field.name}
+									autoComplete={"off"}
+									hidden
+								/>
 								<ButtonGroup>
 									<InputGroup>
 										<InputGroupAddon>
@@ -231,8 +246,8 @@ export function EditTask({
 																"ja-JP",
 																{
 																	year: "numeric",
-																	month: "long",
-																	day: "2-digit",
+																	month: "short",
+																	day: "numeric",
 																},
 															)
 														: "日付を選択…"}
@@ -246,8 +261,19 @@ export function EditTask({
 												align={"center"}
 											>
 												<Calendar
+													fixedWeeks
+													locale={ja}
 													mode={"single"}
 													captionLayout={"dropdown"}
+													startMonth={new Date()}
+													endMonth={
+														new Date(
+															new Date().setFullYear(
+																new Date().getFullYear() +
+																	100,
+															),
+														)
+													}
 													onSelect={(date) => {
 														form.setValue(
 															"expireAt",

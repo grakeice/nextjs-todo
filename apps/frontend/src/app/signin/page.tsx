@@ -103,7 +103,9 @@ export default function Page(): JSX.Element {
 								name={"email"}
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel>メールアドレス</FieldLabel>
+										<FieldLabel htmlFor={field.name}>
+											メールアドレス
+										</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<MailIcon />
@@ -115,6 +117,8 @@ export default function Page(): JSX.Element {
 												aria-invalid={
 													fieldState.invalid
 												}
+												id={field.name}
+												autoComplete={"username"}
 											/>
 										</InputGroup>
 										{fieldState.invalid && (
@@ -130,7 +134,9 @@ export default function Page(): JSX.Element {
 								name={"password"}
 								render={({ field, fieldState }) => (
 									<Field>
-										<FieldLabel>パスワード</FieldLabel>
+										<FieldLabel htmlFor={field.name}>
+											パスワード
+										</FieldLabel>
 										<InputGroup>
 											<InputGroupAddon>
 												<KeyRoundIcon />
@@ -141,6 +147,10 @@ export default function Page(): JSX.Element {
 												placeholder={"パスワード"}
 												aria-invalid={
 													fieldState.invalid
+												}
+												id={field.name}
+												autoComplete={
+													"current-password"
 												}
 											/>
 										</InputGroup>
