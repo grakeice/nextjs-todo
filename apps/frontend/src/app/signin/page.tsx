@@ -60,9 +60,7 @@ export default function Page(): JSX.Element {
 						}
 					}
 				`),
-				{
-					...data,
-				},
+				data,
 			),
 	});
 

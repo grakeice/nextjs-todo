@@ -186,6 +186,31 @@ export type SignOutMutationVariables = Exact<{ [key: string]: never }>;
 
 export type SignOutMutation = { __typename?: "Mutation"; signOut: string };
 
+export type UpdateTaskMutationVariables = Exact<{
+	id: Scalars["String"]["input"];
+	title?: InputMaybe<Scalars["String"]["input"]>;
+	description?: InputMaybe<Scalars["String"]["input"]>;
+	expireAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+	status?: InputMaybe<TaskStatus>;
+}>;
+
+export type UpdateTaskMutation = {
+	__typename?: "Mutation";
+	updateTask: { __typename?: "Task"; title: string };
+};
+
+export type CreateTaskMutationVariables = Exact<{
+	title?: InputMaybe<Scalars["String"]["input"]>;
+	description?: InputMaybe<Scalars["String"]["input"]>;
+	expireAt?: InputMaybe<Scalars["DateTime"]["input"]>;
+	status?: InputMaybe<TaskStatus>;
+}>;
+
+export type CreateTaskMutation = {
+	__typename?: "Mutation";
+	createTask: { __typename?: "Task"; title: string };
+};
+
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUserDataQuery = {
@@ -247,6 +272,31 @@ export const SignOutDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<
 	SignOutMutation,
 	SignOutMutationVariables
+>;
+export const UpdateTaskDocument = new TypedDocumentString(`
+    mutation UpdateTask($id: String!, $title: String, $description: String, $expireAt: DateTime, $status: TaskStatus) {
+  updateTask(
+    id: $id
+    data: {title: $title, description: $description, expireAt: $expireAt, status: $status}
+  ) {
+    title
+  }
+}
+    `) as unknown as TypedDocumentString<
+	UpdateTaskMutation,
+	UpdateTaskMutationVariables
+>;
+export const CreateTaskDocument = new TypedDocumentString(`
+    mutation CreateTask($title: String, $description: String, $expireAt: DateTime, $status: TaskStatus) {
+  createTask(
+    data: {title: $title, description: $description, status: $status, expireAt: $expireAt}
+  ) {
+    title
+  }
+}
+    `) as unknown as TypedDocumentString<
+	CreateTaskMutation,
+	CreateTaskMutationVariables
 >;
 export const GetUserDataDocument = new TypedDocumentString(`
     query getUserData {
