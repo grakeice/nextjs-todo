@@ -2,9 +2,12 @@ packages:
   - apps/*
 
 onlyBuiltDependencies:
+  - "@apollo/protobufjs"
   - "@nestjs/core"
   - "@parcel/watcher"
+  - "@prisma/engines"
   - "@tailwindcss/oxide"
+  - bcrypt
   - prisma
   - sharp
   - unrs-resolver
