@@ -3,6 +3,7 @@
 import type { ComponentProps, JSX } from "react";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
 import { LogOutIcon, PlusIcon } from "lucide-react";
@@ -59,8 +60,16 @@ export function NewTaskButton(
 	props: Omit<ComponentProps<typeof Link>, "href">,
 ) {
 	const { data } = useAccount();
+	const pathname = usePathname();
+
 	return (
-		<Link href={data?.user ? "/new" : ""} {...props}>
+		<Link
+			href={data?.user ? "/new" : ""}
+			onClick={(e) => {
+				if (pathname === "/new") e.preventDefault();
+			}}
+			{...props}
+		>
 			<SidebarMenuButton>
 				<PlusIcon />
 				<span>新規タスク</span>

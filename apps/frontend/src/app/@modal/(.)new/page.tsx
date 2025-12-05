@@ -1,6 +1,6 @@
 "use client";
 
-import type { JSX } from "react";
+import { type JSX } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -15,6 +15,7 @@ import {
 
 export default function Page(): JSX.Element {
 	const router = useRouter();
+
 	return (
 		<Dialog
 			open
@@ -29,7 +30,7 @@ export default function Page(): JSX.Element {
 						新しいタスクを作成する
 					</DialogDescription>
 				</DialogHeader>
-				<EditTask />
+				<EditTask mode={"create"} />
 			</DialogContent>
 		</Dialog>
 	);

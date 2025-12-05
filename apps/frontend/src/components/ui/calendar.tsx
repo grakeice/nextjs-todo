@@ -8,6 +8,7 @@ import {
 	ChevronRightIcon,
 } from "lucide-react";
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker";
+import { ja } from "react-day-picker/locale";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -28,9 +29,15 @@ function Calendar({
 
 	return (
 		<DayPicker
+			locale={ja}
+			fixedWeeks
 			showOutsideDays={showOutsideDays}
+			startMonth={new Date()}
+			endMonth={
+				new Date(new Date().setFullYear(new Date().getFullYear() + 100))
+			}
 			className={cn(
-				"bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
+				"bg-background group/calendar p-3 [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent",
 				String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
 				String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
 				className,

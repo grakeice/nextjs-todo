@@ -147,7 +147,7 @@ export function EditTask({
 	const [date, setDate] = useState<Date>();
 	const timeInputRef = useRef<HTMLInputElement>(null);
 	return (
-		<div className={"mx-auto w-full sm:max-w-md"}>
+		<div className={"mx-auto w-full p-4 sm:max-w-md sm:p-0"}>
 			<form
 				className={"flex w-full"}
 				onSubmit={form.handleSubmit(onSubmit)}
@@ -228,7 +228,12 @@ export function EditTask({
 																	"expireAt",
 																) ?? "",
 															).toLocaleDateString(
-																"ja",
+																"ja-JP",
+																{
+																	year: "numeric",
+																	month: "long",
+																	day: "2-digit",
+																},
 															)
 														: "日付を選択…"}
 													<ChevronDownIcon />
@@ -238,7 +243,7 @@ export function EditTask({
 												className={
 													"w-auto overflow-hidden p-0"
 												}
-												align={"start"}
+												align={"center"}
 											>
 												<Calendar
 													mode={"single"}
@@ -271,7 +276,7 @@ export function EditTask({
 										</InputGroupAddon>
 										<InputGroupInput
 											type={"time"}
-											step={1}
+											step={60}
 											className={
 												"[&::-webkit-calendar-picker-indicator]:hidden"
 											}
