@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { KeyRoundIcon, MailIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 import { queryClient } from "@/components/common/GqlClientProvider";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/input-group";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
-import { signInSchema } from "@/schema/signInSchema";
+import { signInSchema } from "@/schema/accountSchema";
 
 export default function Page(): JSX.Element {
 	const form = useForm<z.infer<typeof signInSchema>>({
@@ -42,6 +42,7 @@ export default function Page(): JSX.Element {
 			password: "",
 		},
 	});
+
 	const signIn = useMutation({
 		mutationKey: ["user"],
 		mutationFn: (data: { email: string; password: string }) =>
@@ -62,6 +63,7 @@ export default function Page(): JSX.Element {
 				},
 			),
 	});
+
 	const onSubmit = async (data: z.infer<typeof signInSchema>) => {
 		signIn.mutate(data, {
 			onSettled: (data) => {

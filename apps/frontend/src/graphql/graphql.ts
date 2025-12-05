@@ -166,6 +166,22 @@ export type SignInMutation = {
 	};
 };
 
+export type SignUpMutationVariables = Exact<{
+	name: Scalars["String"]["input"];
+	email: Scalars["String"]["input"];
+	password: Scalars["String"]["input"];
+}>;
+
+export type SignUpMutation = {
+	__typename?: "Mutation";
+	createUser: {
+		__typename?: "User";
+		id: string;
+		email: string;
+		name: string;
+	};
+};
+
 export type SignOutMutationVariables = Exact<{ [key: string]: never }>;
 
 export type SignOutMutation = { __typename?: "Mutation"; signOut: string };
@@ -211,6 +227,18 @@ export const SignInDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<
 	SignInMutation,
 	SignInMutationVariables
+>;
+export const SignUpDocument = new TypedDocumentString(`
+    mutation SignUp($name: String!, $email: String!, $password: String!) {
+  createUser(data: {name: $name, email: $email, password: $password}) {
+    id
+    email
+    name
+  }
+}
+    `) as unknown as TypedDocumentString<
+	SignUpMutation,
+	SignUpMutationVariables
 >;
 export const SignOutDocument = new TypedDocumentString(`
     mutation SignOut {

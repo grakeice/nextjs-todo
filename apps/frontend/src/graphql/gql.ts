@@ -14,12 +14,15 @@ import * as types from "./graphql";
  */
 type Documents = {
 	"\n\t\t\t\t\tmutation SignIn($email: String!, $password: String!) {\n\t\t\t\t\t\tsignIn(data: { email: $email, password: $password }) {\n\t\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t": typeof types.SignInDocument;
+	"\n\t\t\t\t\tmutation SignUp(\n\t\t\t\t\t\t$name: String!\n\t\t\t\t\t\t$email: String!\n\t\t\t\t\t\t$password: String!\n\t\t\t\t\t) {\n\t\t\t\t\t\tcreateUser(\n\t\t\t\t\t\t\tdata: {\n\t\t\t\t\t\t\t\tname: $name\n\t\t\t\t\t\t\t\temail: $email\n\t\t\t\t\t\t\t\tpassword: $password\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t) {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t": typeof types.SignUpDocument;
 	"\n\t\t\t\t\tmutation SignOut {\n\t\t\t\t\t\tsignOut\n\t\t\t\t\t}\n\t\t\t\t": typeof types.SignOutDocument;
 	"\n\t\t\t\t\tquery getUserData {\n\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t": typeof types.GetUserDataDocument;
 };
 const documents: Documents = {
 	"\n\t\t\t\t\tmutation SignIn($email: String!, $password: String!) {\n\t\t\t\t\t\tsignIn(data: { email: $email, password: $password }) {\n\t\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t":
 		types.SignInDocument,
+	"\n\t\t\t\t\tmutation SignUp(\n\t\t\t\t\t\t$name: String!\n\t\t\t\t\t\t$email: String!\n\t\t\t\t\t\t$password: String!\n\t\t\t\t\t) {\n\t\t\t\t\t\tcreateUser(\n\t\t\t\t\t\t\tdata: {\n\t\t\t\t\t\t\t\tname: $name\n\t\t\t\t\t\t\t\temail: $email\n\t\t\t\t\t\t\t\tpassword: $password\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t) {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t":
+		types.SignUpDocument,
 	"\n\t\t\t\t\tmutation SignOut {\n\t\t\t\t\t\tsignOut\n\t\t\t\t\t}\n\t\t\t\t":
 		types.SignOutDocument,
 	"\n\t\t\t\t\tquery getUserData {\n\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t":
@@ -32,6 +35,12 @@ const documents: Documents = {
 export function graphql(
 	source: "\n\t\t\t\t\tmutation SignIn($email: String!, $password: String!) {\n\t\t\t\t\t\tsignIn(data: { email: $email, password: $password }) {\n\t\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t",
 ): typeof import("./graphql").SignInDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "\n\t\t\t\t\tmutation SignUp(\n\t\t\t\t\t\t$name: String!\n\t\t\t\t\t\t$email: String!\n\t\t\t\t\t\t$password: String!\n\t\t\t\t\t) {\n\t\t\t\t\t\tcreateUser(\n\t\t\t\t\t\t\tdata: {\n\t\t\t\t\t\t\t\tname: $name\n\t\t\t\t\t\t\t\temail: $email\n\t\t\t\t\t\t\t\tpassword: $password\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t) {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t",
+): typeof import("./graphql").SignUpDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
