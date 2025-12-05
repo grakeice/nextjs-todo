@@ -6,7 +6,7 @@ import { UsersModule } from "@/users/users.module";
 
 import { AuthResolver } from "./auth.resolver";
 import { AuthService } from "./auth.service";
-import { JwtStrategy } from "./strategies/jwt.stragegy";
+import { JwtStrategy } from "./strategies/jwt.strategy";
 import { LocalStrategy } from "./strategies/local.strategy";
 
 @Module({
