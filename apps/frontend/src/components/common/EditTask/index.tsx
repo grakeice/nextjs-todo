@@ -36,7 +36,11 @@ import {
 } from "@/components/ui/popover";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
-import type { CreateTaskMutation, UpdateTaskMutation } from "@/graphql/graphql";
+import {
+	TaskStatus,
+	type CreateTaskMutation,
+	type UpdateTaskMutation,
+} from "@/graphql/graphql";
 import { editTaskSchema } from "@/schema/todoSchema";
 
 interface BaseTaskProps {
@@ -53,6 +57,14 @@ interface EditTaskProps extends BaseTaskProps {
 	mode: "edit";
 }
 
+function combineDateAndTime(date?: Date, time?: string) {
+	if (!date && !time) return undefined;
+	const result = date ? new Date(date) : new Date();
+	const [hh = "00", mm = "00", ss = "00"] = (time ?? "00:00:00").split(":");
+	result.setHours(Number(hh), Number(mm), Number(ss), 0);
+	return result;
+}
+
 export function EditTask({
 	mode,
 	id,
@@ -60,7 +72,12 @@ export function EditTask({
 }: EditTaskProps | CreateTaskProps): JSX.Element {
 	const form = useForm({
 		resolver: zodResolver(editTaskSchema),
-		defaultValues: data,
+		defaultValues: {
+			title: data?.title ?? "",
+			description: data?.description ?? "",
+			status: data?.status ?? TaskStatus.Todo,
+			expireAt: data?.expireAt ?? "",
+		},
 	});
 
 	const editTask = useMutation<
@@ -127,7 +144,7 @@ export function EditTask({
 	};
 
 	const [datePickerOpen, setDatePickerOpen] = useState(false);
-	const [, setDate] = useState<Date>();
+	const [date, setDate] = useState<Date>();
 	const timeInputRef = useRef<HTMLInputElement>(null);
 	return (
 		<div className={"mx-auto w-full sm:max-w-md"}>
@@ -229,9 +246,12 @@ export function EditTask({
 													onSelect={(date) => {
 														form.setValue(
 															"expireAt",
-															new Date(
-																`${date?.toDateString()} ${timeInputRef.current?.value}`,
-															).toISOString(),
+															combineDateAndTime(
+																date,
+																timeInputRef
+																	.current
+																	?.value,
+															)?.toISOString(),
 														);
 														setDate(date);
 														setDatePickerOpen(
@@ -256,16 +276,20 @@ export function EditTask({
 												"[&::-webkit-calendar-picker-indicator]:hidden"
 											}
 											onChange={(e) => {
-												setDate((prev) => {
-													const result = new Date(
-														`${prev?.toDateString()} ${e.target.value}`,
+												const result =
+													combineDateAndTime(
+														date,
+														e.target.value,
 													);
-													form.setValue(
-														"expireAt",
-														result?.toISOString(),
-													);
-													return result;
-												});
+												form.setValue(
+													"expireAt",
+													result?.toISOString(),
+												);
+												field.onChange(
+													result?.toISOString(),
+												);
+												setDate(result);
+												return result;
 											}}
 											ref={timeInputRef}
 										/>
