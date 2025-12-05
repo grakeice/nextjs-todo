@@ -40,7 +40,6 @@ export class AuthResolver {
 	@Mutation(() => String)
 	@UseGuards(JwtAuthGuard)
 	signOut(@Context() context: { req: Request; res: Response }) {
-		// console.log(context);
 		context.res.setHeader(
 			"Set-Cookie",
 			serialize("access_token", "", {

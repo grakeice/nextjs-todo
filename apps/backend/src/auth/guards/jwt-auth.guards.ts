@@ -9,8 +9,6 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
 	getRequest(context: ExecutionContext) {
 		const ctx = GqlExecutionContext.create(context);
 
-		// NodeJSのServerResponseっぽそうだから指定しただけで違うかも…？でも型エラー起こらないしいいか……
-		// 追記: req: IncomingMessageが正しそう？
 		return ctx.getContext<{ req: IncomingMessage }>().req;
 	}
 }

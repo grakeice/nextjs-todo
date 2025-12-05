@@ -19,12 +19,6 @@ export class UsersResolver {
 		return this.usersService.create(createUserInput);
 	}
 
-	// 削除すべきかもしれない
-	// @Query(() => [User], { name: "users" })
-	// findAll() {
-	// 	return this.usersService.findAll();
-	// }
-
 	@Query(() => User, { name: "user" })
 	@UseGuards(JwtAuthGuard)
 	async findUnique(
@@ -36,7 +30,6 @@ export class UsersResolver {
 		const res = await this.usersService.findUnique({
 			where: { id, email },
 		});
-		// console.log(res);
 		return res;
 	}
 

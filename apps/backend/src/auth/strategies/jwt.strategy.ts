@@ -9,6 +9,11 @@ import { UsersService } from "@/users/users.service";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
 	constructor(private readonly usersService: UsersService) {
+		const jwtSecret = process.env.JWT_SECRET;
+		if (!jwtSecret) {
+			throw new Error("JWT_SECRET environment variable is not defined");
+		}
+
 		super({
 			jwtFromRequest: ExtractJwt.fromExtractors([
 				ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -16,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 				JwtStrategy.extractJWT,
 			]),
 			ignoreExpiration: false,
-			secretOrKey: process.env.JWT_SECRET as string,
+			secretOrKey: jwtSecret,
 		});
 	}
 
@@ -26,15 +31,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 		});
 	}
 
-	private static extractJWT(
-		req: Request & { cookies: { access_token: string } },
-	): string {
+	private static extractJWT(req: Request): string {
+		const cookies = (req as Request & { cookies?: Record<string, unknown> })
+			.cookies;
 		if (
-			req.cookies &&
-			"access_token" in req.cookies &&
-			req.cookies.access_token.length > 0
+			cookies &&
+			"access_token" in cookies &&
+			typeof cookies.access_token === "string" &&
+			cookies.access_token.length > 0
 		) {
-			return req.cookies.access_token;
+			return cookies.access_token;
 		}
 		return "";
 	}
