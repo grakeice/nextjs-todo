@@ -24,6 +24,8 @@ model Task {
   updatedAt   DateTime   @updatedAt @db.Timestamp(0)
   userId      String     @db.Uuid
   user        User       @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model User {

@@ -8,7 +8,7 @@ import { Pool } from "pg";
 export class PrismaService extends PrismaClient implements OnModuleInit {
 	constructor() {
 		const connectionString = `${process.env.DATABASE_URL}`;
-		const pool = new Pool({ connectionString, query_timeout: 40000 });
+		const pool = new Pool({ connectionString });
 		const adapter = new PrismaPg(pool);
 		super({ adapter, log: ["info", "warn", "error"] });
 	}

@@ -149,7 +149,6 @@ export type User = {
 	email: Scalars["String"]["output"];
 	id: Scalars["ID"]["output"];
 	name: Scalars["String"]["output"];
-	password: Scalars["String"]["output"];
 	updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
