@@ -14,7 +14,9 @@ import { LocalStrategy } from "./strategies/local.strategy";
 		UsersModule,
 		PassportModule.register({ defaultStrategy: "jwt" }),
 		JwtModule.register({
-			secret: process.env.JWT_SECRET || "",
+			// Note: JWT_SECRET validation happens in JwtStrategy constructor
+			// This will throw an error if JWT_SECRET is not defined
+			secret: process.env.JWT_SECRET ?? "",
 			signOptions: { expiresIn: "1h" },
 		}),
 	],
