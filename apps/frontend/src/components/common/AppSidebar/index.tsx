@@ -79,9 +79,11 @@ export function AppSidebar(): JSX.Element {
 					<SidebarGroupLabel>Todo</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
-							<SidebarMenuButton>
-								<CheckCircleIcon />
-								<span>全てのタスク</span>
+							<SidebarMenuButton asChild>
+								<Link href={"/tasks"}>
+									<CheckCircleIcon />
+									<span>全てのタスク</span>
+								</Link>
 							</SidebarMenuButton>
 							<SidebarMenuButton>
 								<CircleDashedIcon />
