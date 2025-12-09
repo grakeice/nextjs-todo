@@ -3,8 +3,15 @@
 import Link from "next/link";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { GripVertical, PencilIcon } from "lucide-react";
+import {
+	CircleCheckBigIcon,
+	CircleDashedIcon,
+	CircleDotIcon,
+	GripVertical,
+	PencilIcon,
+} from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TaskStatus } from "@/graphql/graphql";
 
@@ -42,11 +49,26 @@ export const columns: ColumnDef<Task>[] = [
 			const status = cell.row.original.status;
 			switch (status) {
 				case TaskStatus.Todo:
-					return "未完了";
+					return (
+						<Badge variant={"outline"} className={"bg-gray-100"}>
+							<CircleDashedIcon />
+							未完了
+						</Badge>
+					);
 				case TaskStatus.InProgress:
-					return "進行中";
+					return (
+						<Badge variant={"outline"} className={"text-green-500"}>
+							<CircleDotIcon />
+							進行中
+						</Badge>
+					);
 				case TaskStatus.Completed:
-					return "完了";
+					return (
+						<Badge variant={"outline"}>
+							<CircleCheckBigIcon />
+							完了
+						</Badge>
+					);
 			}
 		},
 	},
