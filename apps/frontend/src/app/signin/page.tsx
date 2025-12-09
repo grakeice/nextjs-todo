@@ -4,6 +4,7 @@ import React from "react";
 import type { JSX } from "react";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -34,9 +35,13 @@ import {
 } from "@/components/ui/input-group";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
+import { useAccount } from "@/hooks/useAccount";
 import { signInSchema } from "@/schema/accountSchema";
 
 export default function Page(): JSX.Element {
+	const { data } = useAccount();
+	if (data) redirect("/");
+
 	const form = useForm<z.infer<typeof signInSchema>>({
 		resolver: zodResolver(signInSchema),
 		defaultValues: {

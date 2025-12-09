@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { LogOutIcon, PlusIcon } from "lucide-react";
 
-// import { userData } from "@/atoms/userData";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { graphql } from "@/graphql";
@@ -16,8 +15,6 @@ import { execute } from "@/graphql/execute";
 import { useAccount } from "@/hooks/useAccount";
 
 import { queryClient } from "../../GqlClientProvider";
-
-// import { useAccount } from "@/hooks/useAccount_legacy";
 
 export function SignOutButton(): JSX.Element {
 	const signOut = useMutation({
