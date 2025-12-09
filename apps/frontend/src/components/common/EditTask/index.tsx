@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { ja } from "react-day-picker/locale";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 
 import {
@@ -61,6 +62,8 @@ import {
 	type UpdateTaskMutation,
 } from "@/graphql/graphql";
 import { editTaskSchema } from "@/schema/todoSchema";
+
+import { ToastErrorDescription } from "../ToastErrorDescription";
 
 interface BaseTaskProps {
 	mode: "create" | "edit";
@@ -162,6 +165,17 @@ export function EditTask({
 					},
 				);
 			}
+		},
+		onSuccess: () => {
+			toast(`タスクを${mode === "create" ? "作成" : "編集"}しました`);
+		},
+		onError: (error) => {
+			toast.error(
+				`タスクの${mode === "create" ? "作成" : "編集"}に失敗しました`,
+				{
+					description: <ToastErrorDescription error={error} />,
+				},
+			);
 		},
 	});
 

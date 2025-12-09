@@ -54,7 +54,7 @@ export default function RootLayout({
 					</SidebarProvider>
 					<ReactQueryDevtools />
 				</GqlClientProvider>
-				<Toaster />
+				<Toaster richColors />
 			</body>
 		</html>
 	);

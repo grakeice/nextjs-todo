@@ -19,6 +19,7 @@ type Documents = {
 	"\n\t\t\t\t\t\tmutation UpdateTask(\n\t\t\t\t\t\t\t$id: String!\n\t\t\t\t\t\t\t$title: String\n\t\t\t\t\t\t\t$description: String\n\t\t\t\t\t\t\t$expireAt: DateTime\n\t\t\t\t\t\t\t$status: TaskStatus\n\t\t\t\t\t\t) {\n\t\t\t\t\t\t\tupdateTask(\n\t\t\t\t\t\t\t\tid: $id\n\t\t\t\t\t\t\t\tdata: {\n\t\t\t\t\t\t\t\t\ttitle: $title\n\t\t\t\t\t\t\t\t\tdescription: $description\n\t\t\t\t\t\t\t\t\texpireAt: $expireAt\n\t\t\t\t\t\t\t\t\tstatus: $status\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t) {\n\t\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t": typeof types.UpdateTaskDocument;
 	"\n\t\t\t\t\t\tmutation CreateTask(\n\t\t\t\t\t\t\t$title: String\n\t\t\t\t\t\t\t$description: String\n\t\t\t\t\t\t\t$expireAt: DateTime\n\t\t\t\t\t\t\t$status: TaskStatus\n\t\t\t\t\t\t) {\n\t\t\t\t\t\t\tcreateTask(\n\t\t\t\t\t\t\t\tdata: {\n\t\t\t\t\t\t\t\t\ttitle: $title\n\t\t\t\t\t\t\t\t\tdescription: $description\n\t\t\t\t\t\t\t\t\tstatus: $status\n\t\t\t\t\t\t\t\t\texpireAt: $expireAt\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t) {\n\t\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t": typeof types.CreateTaskDocument;
 	"\n\t\t\t\t\tquery getUserData {\n\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t": typeof types.GetUserDataDocument;
+	"\n\t\t\t\t\tquery getTasks {\n\t\t\t\t\t\ttasks {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\texpireAt\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t": typeof types.GetTasksDocument;
 };
 const documents: Documents = {
 	"\n\t\t\t\t\tmutation SignIn($email: String!, $password: String!) {\n\t\t\t\t\t\tsignIn(data: { email: $email, password: $password }) {\n\t\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\t\tname\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t":
@@ -33,6 +34,8 @@ const documents: Documents = {
 		types.CreateTaskDocument,
 	"\n\t\t\t\t\tquery getUserData {\n\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t":
 		types.GetUserDataDocument,
+	"\n\t\t\t\t\tquery getTasks {\n\t\t\t\t\t\ttasks {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\texpireAt\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t":
+		types.GetTasksDocument,
 };
 
 /**
@@ -71,6 +74,12 @@ export function graphql(
 export function graphql(
 	source: "\n\t\t\t\t\tquery getUserData {\n\t\t\t\t\t\tuser {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\temail\n\t\t\t\t\t\t\tname\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t",
 ): typeof import("./graphql").GetUserDataDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+	source: "\n\t\t\t\t\tquery getTasks {\n\t\t\t\t\t\ttasks {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t\tdescription\n\t\t\t\t\t\t\tstatus\n\t\t\t\t\t\t\texpireAt\n\t\t\t\t\t\t\tcreatedAt\n\t\t\t\t\t\t\tupdatedAt\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t",
+): typeof import("./graphql").GetTasksDocument;
 
 export function graphql(source: string) {
 	return (documents as any)[source] ?? {};

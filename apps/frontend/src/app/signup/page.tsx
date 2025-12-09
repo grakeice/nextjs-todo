@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { queryClient } from "@/components/common/GqlClientProvider";
+import { ToastErrorDescription } from "@/components/common/ToastErrorDescription";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -75,6 +76,14 @@ export default function Page(): JSX.Element {
 					...data,
 				},
 			),
+		onSuccess: () => {
+			toast.success("アカウントを作成しました");
+		},
+		onError: (error) => {
+			toast.error("アカウントの作成に失敗しました", {
+				description: <ToastErrorDescription error={error} />,
+			});
+		},
 	});
 
 	const signIn = useMutation({
@@ -94,33 +103,22 @@ export default function Page(): JSX.Element {
 				`),
 				data,
 			),
+		onSuccess: () => {
+			toast("サインインしました");
+			router.push("/");
+		},
+		onError: () => {
+			toast.error("サインインに失敗しました");
+		},
+		onSettled: () => {
+			queryClient.refetchQueries();
+		},
 	});
 
 	const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
 		signUp.mutate(data, {
 			onSuccess: () => {
-				signIn.mutate(data, {
-					onSuccess: (data) => {
-						queryClient.refetchQueries();
-						router.push("/");
-						toast("Response: ", {
-							description: (
-								<pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-									<code>
-										{JSON.stringify(data.signIn, null, 2)}
-									</code>
-								</pre>
-							),
-							position: "bottom-right",
-							classNames: {
-								content: "flex flex-col gap-2",
-							},
-							style: {
-								"--border-radius": "calc(var(--radius)  + 4px)",
-							} as React.CSSProperties,
-						});
-					},
-				});
+				signIn.mutate(data);
 			},
 		});
 	};

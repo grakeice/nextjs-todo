@@ -217,6 +217,22 @@ export type GetUserDataQuery = {
 	user: { __typename?: "User"; id: string; email: string; name: string };
 };
 
+export type GetTasksQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTasksQuery = {
+	__typename?: "Query";
+	tasks: Array<{
+		__typename?: "Task";
+		id: string;
+		title: string;
+		description?: string | null;
+		status: TaskStatus;
+		expireAt?: any | null;
+		createdAt: any;
+		updatedAt?: any | null;
+	}>;
+};
+
 export class TypedDocumentString<TResult, TVariables>
 	extends String
 	implements DocumentTypeDecoration<TResult, TVariables>
@@ -309,3 +325,16 @@ export const GetUserDataDocument = new TypedDocumentString(`
 	GetUserDataQuery,
 	GetUserDataQueryVariables
 >;
+export const GetTasksDocument = new TypedDocumentString(`
+    query getTasks {
+  tasks {
+    id
+    title
+    description
+    status
+    expireAt
+    createdAt
+    updatedAt
+  }
+}
+    `) as unknown as TypedDocumentString<GetTasksQuery, GetTasksQueryVariables>;
