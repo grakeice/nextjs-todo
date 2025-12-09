@@ -1,5 +1,17 @@
 {
 	"css.lint.unknownAtRules": "ignore",
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"files.readonlyInclude": {
+		"**/graphql/*.ts": true,
+		"**/generated/**": true,
+		"**/migrations/**": true,
+		"**/node_modules/**": true,
+		"**/schema.{gql,graphql}": true,
+		"**/pnpm-lock.yaml": true,
+		"**/.next/**": true
+	},
+	"files.readonlyExclude": {
+		"**/graphql/execute.ts": true
+	}
 }
