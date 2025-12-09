@@ -5,13 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
 
-export function useTasks() {
+export function useTaskList() {
 	const query = useQuery({
-		queryKey: ["tasks"],
+		queryKey: ["task_list"],
 		queryFn: () =>
 			execute(
 				graphql(`
-					query getTasks {
+					query getTaskList {
 						tasks {
 							id
 							title

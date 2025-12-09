@@ -59,7 +59,7 @@ export const columns: ColumnDef<Task>[] = [
 				return new Date(expireAt).toLocaleDateString("ja-JP", {
 					year: "numeric",
 					month: "long",
-					day: "2-digit",
+					day: "numeric",
 				});
 			}
 			return "";

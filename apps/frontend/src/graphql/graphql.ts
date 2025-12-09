@@ -217,9 +217,25 @@ export type GetUserDataQuery = {
 	user: { __typename?: "User"; id: string; email: string; name: string };
 };
 
-export type GetTasksQueryVariables = Exact<{ [key: string]: never }>;
+export type GetTaskQueryVariables = Exact<{
+	id: Scalars["String"]["input"];
+}>;
 
-export type GetTasksQuery = {
+export type GetTaskQuery = {
+	__typename?: "Query";
+	task: {
+		__typename?: "Task";
+		id: string;
+		title: string;
+		description?: string | null;
+		status: TaskStatus;
+		expireAt?: string | null;
+	};
+};
+
+export type GetTaskListQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTaskListQuery = {
 	__typename?: "Query";
 	tasks: Array<{
 		__typename?: "Task";
@@ -323,8 +339,19 @@ export const GetUserDataDocument = new TypedDocumentString(`
 	GetUserDataQuery,
 	GetUserDataQueryVariables
 >;
-export const GetTasksDocument = new TypedDocumentString(`
-    query getTasks {
+export const GetTaskDocument = new TypedDocumentString(`
+    query getTask($id: String!) {
+  task(id: $id) {
+    id
+    title
+    description
+    status
+    expireAt
+  }
+}
+    `) as unknown as TypedDocumentString<GetTaskQuery, GetTaskQueryVariables>;
+export const GetTaskListDocument = new TypedDocumentString(`
+    query getTaskList {
   tasks {
     id
     title
@@ -333,4 +360,7 @@ export const GetTasksDocument = new TypedDocumentString(`
     expireAt
   }
 }
-    `) as unknown as TypedDocumentString<GetTasksQuery, GetTasksQueryVariables>;
+    `) as unknown as TypedDocumentString<
+	GetTaskListQuery,
+	GetTaskListQueryVariables
+>;

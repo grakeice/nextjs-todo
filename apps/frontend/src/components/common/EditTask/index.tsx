@@ -1,7 +1,10 @@
 import { useRef, useState, type JSX } from "react";
 
+import { useRouter } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { format } from "date-fns";
 import {
 	CalendarIcon,
 	ChevronDownIcon,
@@ -63,6 +66,7 @@ import {
 } from "@/graphql/graphql";
 import { editTaskSchema } from "@/schema/todoSchema";
 
+import { queryClient } from "../GqlClientProvider";
 import { ToastErrorDescription } from "../ToastErrorDescription";
 
 interface BaseTaskProps {
@@ -101,6 +105,8 @@ export function EditTask({
 			expireAt: data?.expireAt ?? "",
 		},
 	});
+
+	const router = useRouter();
 
 	const editTask = useMutation<
 		UpdateTaskMutation | CreateTaskMutation,
@@ -168,6 +174,8 @@ export function EditTask({
 		},
 		onSuccess: () => {
 			toast(`タスクを${mode === "create" ? "作成" : "編集"}しました`);
+			router.back();
+			queryClient.refetchQueries();
 		},
 		onError: (error) => {
 			toast.error(
@@ -185,8 +193,9 @@ export function EditTask({
 	};
 
 	const [datePickerOpen, setDatePickerOpen] = useState(false);
-	const [date, setDate] = useState<Date>();
+
 	const timeInputRef = useRef<HTMLInputElement>(null);
+	const timeHiddenRef = useRef<HTMLInputElement>(null);
 	return (
 		<div className={"mx-auto w-full p-4 sm:max-w-md sm:p-0"}>
 			<form
@@ -255,7 +264,12 @@ export function EditTask({
 								<FieldLabel htmlFor={field.name}>
 									期限
 								</FieldLabel>
-								<input {...field} autoComplete={"off"} hidden />
+								<input
+									{...field}
+									autoComplete={"off"}
+									ref={timeHiddenRef}
+									hidden
+								/>
 								<ButtonGroup id={field.name}>
 									<InputGroup>
 										<InputGroupAddon>
@@ -314,13 +328,13 @@ export function EditTask({
 														form.setValue(
 															"expireAt",
 															combineDateAndTime(
+																// date,
 																date,
 																timeInputRef
 																	.current
 																	?.value,
 															)?.toISOString(),
 														);
-														setDate(date);
 														setDatePickerOpen(
 															false,
 														);
@@ -345,7 +359,11 @@ export function EditTask({
 											onChange={(e) => {
 												const result =
 													combineDateAndTime(
-														date,
+														new Date(
+															timeHiddenRef
+																.current
+																?.value ?? "",
+														),
 														e.target.value,
 													);
 												form.setValue(
@@ -355,9 +373,17 @@ export function EditTask({
 												field.onChange(
 													result?.toISOString(),
 												);
-												setDate(result);
 												return result;
 											}}
+											defaultValue={
+												timeHiddenRef.current?.value
+													? format(
+															timeHiddenRef
+																.current.value,
+															"HH:mm",
+														)
+													: ""
+											}
 											ref={timeInputRef}
 										/>
 									</InputGroup>
@@ -436,7 +462,9 @@ export function EditTask({
 								</AlertDialogFooter>
 							</AlertDialogContent>
 						</AlertDialog>
-						<Button type={"submit"}>作成</Button>
+						<Button type={"submit"}>
+							{mode === "create" ? "作成" : "更新"}
+						</Button>
 					</Field>
 				</FieldGroup>
 			</form>
