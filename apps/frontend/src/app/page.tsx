@@ -1,7 +1,5 @@
 "use client";
 
-import { Activity } from "react";
-
 import {
 	Empty,
 	EmptyDescription,
@@ -14,13 +12,14 @@ import type { GetUserDataQuery } from "@/graphql/graphql";
 import { useAccount } from "@/hooks/useAccount";
 
 import SignIn from "./signin/page";
+import Tasks from "./tasks/page";
 
 function Page({ data }: { data: GetUserDataQuery | undefined }) {
-	return (
-		<Activity mode={data?.user ? "hidden" : "visible"}>
-			<SignIn />
-		</Activity>
-	);
+	if (data?.user) {
+		return <Tasks />;
+	} else {
+		return <SignIn />;
+	}
 }
 
 export default function Home() {

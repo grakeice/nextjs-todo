@@ -31,7 +31,7 @@ export type Scalars = {
 	Int: { input: number; output: number };
 	Float: { input: number; output: number };
 	/** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-	DateTime: { input: any; output: any };
+	DateTime: { input: string; output: string };
 };
 
 export type CreateTaskInput = {
@@ -227,9 +227,7 @@ export type GetTasksQuery = {
 		title: string;
 		description?: string | null;
 		status: TaskStatus;
-		expireAt?: any | null;
-		createdAt: any;
-		updatedAt?: any | null;
+		expireAt?: string | null;
 	}>;
 };
 
@@ -333,8 +331,6 @@ export const GetTasksDocument = new TypedDocumentString(`
     description
     status
     expireAt
-    createdAt
-    updatedAt
   }
 }
     `) as unknown as TypedDocumentString<GetTasksQuery, GetTasksQueryVariables>;
