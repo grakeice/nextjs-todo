@@ -9,6 +9,7 @@ import {
 	CircleDotIcon,
 	GripVertical,
 	PencilIcon,
+	Trash2Icon,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -88,20 +89,31 @@ export const columns: ColumnDef<Task>[] = [
 		},
 	},
 	{
-		id: "edit-button",
+		id: "actions",
 		cell: ({ cell }) => {
 			const id = cell.row.original.id;
 			return (
-				<Button
-					type={"button"}
-					variant={"ghost"}
-					className={"cursor-pointer"}
-					asChild
-				>
-					<Link href={`tasks/${id}`}>
-						<PencilIcon />
-					</Link>
-				</Button>
+				<>
+					<Button
+						type={"button"}
+						variant={"ghost"}
+						className={"cursor-pointer"}
+						asChild
+					>
+						<Link href={`tasks/${id}`}>
+							<PencilIcon />
+						</Link>
+					</Button>
+					<Button
+						type={"button"}
+						variant={"ghost"}
+						className={
+							"invisible cursor-pointer group-hover:visible hover:text-red-500"
+						}
+					>
+						<Trash2Icon />
+					</Button>
+				</>
 			);
 		},
 	},
