@@ -13,6 +13,18 @@ import { ja } from "react-day-picker/locale";
 import { Controller, useForm } from "react-hook-form";
 import type { z } from "zod";
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -34,6 +46,13 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
 import {
@@ -110,7 +129,11 @@ export function EditTask({
 							}
 						}
 					`),
-					{ id, ...data },
+					{
+						...data,
+						id,
+						expireAt: data.expireAt !== "" ? data.expireAt : null,
+					},
 				);
 			} else {
 				return execute(
@@ -133,13 +156,17 @@ export function EditTask({
 							}
 						}
 					`),
-					data,
+					{
+						...data,
+						expireAt: data.expireAt !== "" ? data.expireAt : null,
+					},
 				);
 			}
 		},
 	});
 
 	const onSubmit = (data: z.infer<typeof editTaskSchema>) => {
+		console.log(data);
 		editTask.mutate(data);
 	};
 
@@ -214,13 +241,8 @@ export function EditTask({
 								<FieldLabel htmlFor={field.name}>
 									期限
 								</FieldLabel>
-								<input
-									{...field}
-									id={field.name}
-									autoComplete={"off"}
-									hidden
-								/>
-								<ButtonGroup>
+								<input {...field} autoComplete={"off"} hidden />
+								<ButtonGroup id={field.name}>
 									<InputGroup>
 										<InputGroupAddon>
 											<CalendarIcon />
@@ -326,9 +348,82 @@ export function EditTask({
 										/>
 									</InputGroup>
 								</ButtonGroup>
+								{fieldState.invalid && (
+									<FieldError errors={[fieldState.error]} />
+								)}
 							</Field>
 						)}
 					/>
+					<Controller
+						control={form.control}
+						name={"status"}
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<FieldLabel htmlFor={field.name}>
+									進行状況
+								</FieldLabel>
+								<Select
+									name={field.name}
+									value={field.value}
+									onValueChange={field.onChange}
+								>
+									<SelectTrigger
+										id={field.name}
+										aria-invalid={fieldState.invalid}
+									>
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value={TaskStatus.Todo}>
+											未完了
+										</SelectItem>
+										<SelectItem
+											value={TaskStatus.InProgress}
+										>
+											進行中
+										</SelectItem>
+										<SelectItem
+											value={TaskStatus.Completed}
+										>
+											完了
+										</SelectItem>
+									</SelectContent>
+								</Select>
+								{fieldState.invalid && (
+									<FieldError errors={[fieldState.error]} />
+								)}
+							</Field>
+						)}
+					/>
+					<Field orientation={"horizontal"} className={"justify-end"}>
+						<AlertDialog>
+							<AlertDialogTrigger asChild>
+								<Button variant={"outline"}>リセット</Button>
+							</AlertDialogTrigger>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>
+										入力内容をリセットしますか？
+									</AlertDialogTitle>
+									<AlertDialogDescription>
+										この操作は取り消すことができません。
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>
+										キャンセル
+									</AlertDialogCancel>
+									<AlertDialogAction
+										onClick={() => form.reset()}
+										type={"reset"}
+									>
+										リセット
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
+						<Button type={"submit"}>作成</Button>
+					</Field>
 				</FieldGroup>
 			</form>
 		</div>
