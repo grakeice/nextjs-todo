@@ -7,7 +7,7 @@ import {
 	CircleCheckBigIcon,
 	CircleDashedIcon,
 	CircleDotIcon,
-	GripVertical,
+	GripVerticalIcon,
 	PencilIcon,
 	Trash2Icon,
 } from "lucide-react";
@@ -30,7 +30,7 @@ export const columns: ColumnDef<Task>[] = [
 		cell: () => {
 			return (
 				<Button variant={"ghost"} className={"cursor-grab"}>
-					<GripVertical />
+					<GripVerticalIcon />
 				</Button>
 			);
 		},
