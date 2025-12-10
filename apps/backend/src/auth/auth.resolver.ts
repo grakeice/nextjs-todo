@@ -30,7 +30,7 @@ export class AuthResolver {
 			serialize("access_token", access_token, {
 				httpOnly: true,
 				maxAge: ONE_HOUR,
-				sameSite: "none",
+				sameSite: "strict",
 				secure: true,
 			}),
 		);
@@ -45,7 +45,7 @@ export class AuthResolver {
 			serialize("access_token", "", {
 				httpOnly: true,
 				maxAge: 0,
-				sameSite: "none",
+				sameSite: "strict",
 				secure: true,
 			}),
 		);
