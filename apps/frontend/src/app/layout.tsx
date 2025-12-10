@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { AppSidebar } from "@/components/common/AppSidebar";
 import { GqlClientProvider } from "@/components/common/GqlClientProvider";
+import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -35,26 +36,37 @@ export default function RootLayout({
 	modal: ReactNode;
 }>) {
 	return (
-		<html lang="ja">
+		<html lang="ja" suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<GqlClientProvider>
-					<SidebarProvider>
-						<div className={"flex w-screen flex-row"}>
-							<AppSidebar />
-							<div className={"h-screen w-full overflow-hidden"}>
-								<SidebarTrigger />
-								<div className="mx-auto h-full">
-									{children}
-									{modal}
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<GqlClientProvider>
+						<SidebarProvider>
+							<div className={"flex w-screen flex-row"}>
+								<AppSidebar />
+								<div
+									className={
+										"h-screen w-full overflow-hidden"
+									}
+								>
+									<SidebarTrigger />
+									<div className="mx-auto h-full">
+										{children}
+										{modal}
+									</div>
 								</div>
 							</div>
-						</div>
-					</SidebarProvider>
-					<ReactQueryDevtools />
-				</GqlClientProvider>
-				<Toaster richColors />
+						</SidebarProvider>
+						<ReactQueryDevtools />
+					</GqlClientProvider>
+					<Toaster richColors />
+				</ThemeProvider>
 			</body>
 		</html>
 	);

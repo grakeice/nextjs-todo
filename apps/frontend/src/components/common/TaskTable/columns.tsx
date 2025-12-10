@@ -51,14 +51,17 @@ export const columns: ColumnDef<Task>[] = [
 			switch (status) {
 				case TaskStatus.Todo:
 					return (
-						<Badge variant={"outline"} className={"bg-gray-100"}>
+						<Badge variant={"outline"} className={"bg-accent"}>
 							<CircleDashedIcon />
 							未完了
 						</Badge>
 					);
 				case TaskStatus.InProgress:
 					return (
-						<Badge variant={"outline"} className={"text-green-500"}>
+						<Badge
+							variant={"outline"}
+							className={"bg-accent text-green-500"}
+						>
 							<CircleDotIcon />
 							進行中
 						</Badge>

@@ -164,7 +164,11 @@ export default function Page(): JSX.Element {
 						<Button type={"submit"} className={"w-full"}>
 							サインイン
 						</Button>
-						<p className={"text-sm text-gray-700"}>
+						<p
+							className={
+								"text-sm text-gray-700 dark:text-gray-300"
+							}
+						>
 							<span>アカウントを持っていませんか？: </span>
 							<Link href={"/signup"} className={"underline"}>
 								サインアップ

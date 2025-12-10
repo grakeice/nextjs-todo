@@ -111,7 +111,9 @@ export function AppSidebar(): JSX.Element {
 									<div className={"flex flex-col"}>
 										<UserName className={"font-medium"} />
 										<UserEmail
-											className={"text-gray-500"}
+											className={
+												"text-gray-600 dark:text-gray-400"
+											}
 										/>
 									</div>
 									<ChevronsUpDownIcon className={"ml-auto"} />

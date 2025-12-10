@@ -263,8 +263,13 @@ export function EditTask({
 								<FieldLabel htmlFor={field.name}>
 									期限
 								</FieldLabel>
-								<input {...field} autoComplete={"off"} hidden />
-								<ButtonGroup id={field.name}>
+								<input
+									{...field}
+									autoComplete={"off"}
+									id={field.name}
+									hidden
+								/>
+								<ButtonGroup>
 									<InputGroup>
 										<InputGroupAddon>
 											<CalendarIcon />

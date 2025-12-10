@@ -272,7 +272,11 @@ export default function Page(): JSX.Element {
 						<Button type={"submit"} className={"w-full"}>
 							サインアップ
 						</Button>
-						<p className={"text-sm text-gray-700"}>
+						<p
+							className={
+								"text-sm text-gray-700 dark:text-gray-300"
+							}
+						>
 							<span>既にアカウントを持っていますか？: </span>
 							<Link href={"/signin"} className={"underline"}>
 								サインイン
