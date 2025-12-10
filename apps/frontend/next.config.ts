@@ -6,7 +6,9 @@ const nextConfig: NextConfig = {
 		return [
 			{
 				source: "/graphql",
-				destination: "/api/graphql",
+				destination:
+					process.env.BACKEND_GRAPHQL_URL ||
+					"http://127.0.0.1:4000/graphql",
 			},
 		];
 	},
