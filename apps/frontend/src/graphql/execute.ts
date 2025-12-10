@@ -6,7 +6,7 @@ export async function execute<TResult, TVariables>(
 	query: TypedDocumentString<TResult, TVariables>,
 	...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
-	const client = new GraphQLClient("http://127.0.0.1:4000/graphql", {
+	const client = new GraphQLClient("/graphql", {
 		credentials: "include",
 	});
 
