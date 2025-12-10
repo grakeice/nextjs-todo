@@ -192,7 +192,9 @@ export function EditTask({
 	};
 
 	const [datePickerOpen, setDatePickerOpen] = useState(false);
-	const [expireTime, setExpireTime] = useState("");
+	const [expireTime, setExpireTime] = useState(
+		data?.expireAt ? format(data.expireAt, "HH:mm") : "",
+	);
 	return (
 		<div className={"mx-auto w-full p-4 sm:max-w-md sm:p-0"}>
 			<form
@@ -279,11 +281,14 @@ export function EditTask({
 													variant={"ghost"}
 													className={"m-auto"}
 												>
-													{form.getValues("expireAt")
-														? new Date(
-																form.getValues(
-																	"expireAt",
-																) ?? "",
+													{(() => {
+														const value =
+															form.getValues(
+																"expireAt",
+															);
+														if (value) {
+															return new Date(
+																value,
 															).toLocaleDateString(
 																"ja-JP",
 																{
@@ -291,8 +296,11 @@ export function EditTask({
 																	month: "short",
 																	day: "numeric",
 																},
-															)
-														: "日付を選択…"}
+															);
+														} else {
+															return "日付を選択…";
+														}
+													})()}
 													<ChevronDownIcon />
 												</InputGroupButton>
 											</PopoverTrigger>
@@ -347,13 +355,13 @@ export function EditTask({
 											}
 											onChange={(e) => {
 												setExpireTime(e.target.value);
+												const value =
+													form.getValues("expireAt");
 												const result =
 													combineDateAndTime(
-														new Date(
-															form.getValues(
-																"expireAt",
-															) ?? "",
-														),
+														value
+															? new Date(value)
+															: new Date(),
 														e.target.value,
 													);
 												form.setValue(
@@ -365,16 +373,7 @@ export function EditTask({
 												);
 												return result;
 											}}
-											defaultValue={
-												form.getValues("expireAt")
-													? format(
-															form.getValues(
-																"expireAt",
-															)!,
-															"HH:mm",
-														)
-													: ""
-											}
+											value={expireTime}
 										/>
 									</InputGroup>
 								</ButtonGroup>
@@ -444,7 +443,17 @@ export function EditTask({
 										キャンセル
 									</AlertDialogCancel>
 									<AlertDialogAction
-										onClick={() => form.reset()}
+										onClick={() => {
+											form.reset();
+											setExpireTime(
+												data?.expireAt
+													? format(
+															data.expireAt,
+															"HH:mm",
+														)
+													: "",
+											);
+										}}
 										type={"reset"}
 									>
 										リセット
