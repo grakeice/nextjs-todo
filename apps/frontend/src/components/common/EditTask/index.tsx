@@ -1,4 +1,4 @@
-import { useRef, useState, type JSX } from "react";
+import { useState, type JSX } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -188,14 +188,11 @@ export function EditTask({
 	});
 
 	const onSubmit = (data: z.infer<typeof editTaskSchema>) => {
-		console.log(data);
 		editTask.mutate(data);
 	};
 
 	const [datePickerOpen, setDatePickerOpen] = useState(false);
-
-	const timeInputRef = useRef<HTMLInputElement>(null);
-	const timeHiddenRef = useRef<HTMLInputElement>(null);
+	const [expireTime, setExpireTime] = useState("");
 	return (
 		<div className={"mx-auto w-full p-4 sm:max-w-md sm:p-0"}>
 			<form
@@ -264,12 +261,7 @@ export function EditTask({
 								<FieldLabel htmlFor={field.name}>
 									期限
 								</FieldLabel>
-								<input
-									{...field}
-									autoComplete={"off"}
-									ref={timeHiddenRef}
-									hidden
-								/>
+								<input {...field} autoComplete={"off"} hidden />
 								<ButtonGroup id={field.name}>
 									<InputGroup>
 										<InputGroupAddon>
@@ -328,11 +320,8 @@ export function EditTask({
 														form.setValue(
 															"expireAt",
 															combineDateAndTime(
-																// date,
 																date,
-																timeInputRef
-																	.current
-																	?.value,
+																expireTime,
 															)?.toISOString(),
 														);
 														setDatePickerOpen(
@@ -357,12 +346,13 @@ export function EditTask({
 												"[&::-webkit-calendar-picker-indicator]:hidden"
 											}
 											onChange={(e) => {
+												setExpireTime(e.target.value);
 												const result =
 													combineDateAndTime(
 														new Date(
-															timeHiddenRef
-																.current
-																?.value ?? "",
+															form.getValues(
+																"expireAt",
+															) ?? "",
 														),
 														e.target.value,
 													);
@@ -376,15 +366,15 @@ export function EditTask({
 												return result;
 											}}
 											defaultValue={
-												timeHiddenRef.current?.value
+												form.getValues("expireAt")
 													? format(
-															timeHiddenRef
-																.current.value,
+															form.getValues(
+																"expireAt",
+															)!,
 															"HH:mm",
 														)
 													: ""
 											}
-											ref={timeInputRef}
 										/>
 									</InputGroup>
 								</ButtonGroup>
