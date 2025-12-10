@@ -31,7 +31,7 @@
 		"date-fns": "^4.1.0",
 		"graphql": "^16.12.0",
 		"graphql-request": "^7.3.5",
-		"jotai": "^2.15.2",
+		"jotai": "^2.16.0",
 		"lucide-react": "^0.556.0",
 		"next": "16.0.8",
 		"next-themes": "^0.4.6",
@@ -44,7 +44,7 @@
 		"zod": "^4.1.13"
 	},
 	"devDependencies": {
-		"@0no-co/graphqlsp": "^1.15.1",
+		"@0no-co/graphqlsp": "^1.15.2",
 		"@graphql-codegen/cli": "^6.1.0",
 		"@graphql-codegen/client-preset": "^5.2.1",
 		"@graphql-codegen/schema-ast": "^5.0.0",
