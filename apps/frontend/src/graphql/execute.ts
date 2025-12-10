@@ -1,3 +1,5 @@
+"use client";
+
 import { GraphQLClient } from "graphql-request";
 
 import type { TypedDocumentString } from "./graphql";
@@ -6,12 +8,9 @@ export async function execute<TResult, TVariables>(
 	query: TypedDocumentString<TResult, TVariables>,
 	...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
-	const client = new GraphQLClient(
-		`${process.env.NEXTAPP_URL || "http://127.0.0.1:3000"}/graphql`,
-		{
-			credentials: "include",
-		},
-	);
+	const client = new GraphQLClient(`${window.location.origin}/graphql`, {
+		credentials: "include",
+	});
 
 	try {
 		return await client.request(query, { ...variables });
