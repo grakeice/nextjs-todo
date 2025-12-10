@@ -10,6 +10,7 @@ import { GqlClientProvider } from "@/components/common/GqlClientProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { ZodI18n } from "@/components/zod-i18n";
 
 import "./globals.css";
 
@@ -40,33 +41,35 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				>
-					<GqlClientProvider>
-						<SidebarProvider>
-							<div className={"flex w-screen flex-row"}>
-								<AppSidebar />
-								<div
-									className={
-										"h-screen w-full overflow-hidden"
-									}
-								>
-									<SidebarTrigger />
-									<div className="mx-auto h-full">
-										{children}
-										{modal}
+				<ZodI18n>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						<GqlClientProvider>
+							<SidebarProvider>
+								<div className={"flex w-screen flex-row"}>
+									<AppSidebar />
+									<div
+										className={
+											"h-screen w-full overflow-hidden"
+										}
+									>
+										<SidebarTrigger />
+										<div className="mx-auto h-full">
+											{children}
+											{modal}
+										</div>
 									</div>
 								</div>
-							</div>
-						</SidebarProvider>
-						<ReactQueryDevtools />
-					</GqlClientProvider>
-					<Toaster richColors />
-				</ThemeProvider>
+							</SidebarProvider>
+							<ReactQueryDevtools />
+						</GqlClientProvider>
+						<Toaster richColors />
+					</ThemeProvider>
+				</ZodI18n>
 			</body>
 		</html>
 	);
