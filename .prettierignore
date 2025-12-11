@@ -1,1 +1,4 @@
 pnpm-lock.yaml
+**/graphql/*.ts
+!**/graphql/execute.ts
+schema.gql

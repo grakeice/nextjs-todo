@@ -1,271 +1,226 @@
 /* eslint-disable */
-import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-
+import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null | undefined;
-export type Exact<T extends { [key: string]: unknown }> = {
-	[K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-	[SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-	[SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-	T extends { [key: string]: unknown },
-	K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-	| T
-	| {
-			[P in keyof T]?: P extends " $fragmentName" | "__typename"
-				? T[P]
-				: never;
-	  };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-	ID: { input: string; output: string };
-	String: { input: string; output: string };
-	Boolean: { input: boolean; output: boolean };
-	Int: { input: number; output: number };
-	Float: { input: number; output: number };
-	/** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-	DateTime: { input: string; output: string };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: { input: string; output: string; }
 };
 
 export type CreateTaskInput = {
-	description?: InputMaybe<Scalars["String"]["input"]>;
-	expireAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-	status?: InputMaybe<TaskStatus>;
-	title?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  expireAt?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<TaskStatus>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateUserInput = {
-	email: Scalars["String"]["input"];
-	name: Scalars["String"]["input"];
-	password: Scalars["String"]["input"];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type LoginResponse = {
-	__typename?: "LoginResponse";
-	user: User;
+  __typename?: 'LoginResponse';
+  user: User;
 };
 
 export type LoginUserInput = {
-	email: Scalars["String"]["input"];
-	password: Scalars["String"]["input"];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Mutation = {
-	__typename?: "Mutation";
-	createTask: Task;
-	createUser: User;
-	removeTask: Task;
-	removeUser: User;
-	signIn: LoginResponse;
-	signOut: Scalars["String"]["output"];
-	updateTask: Task;
-	updateUser: User;
+  __typename?: 'Mutation';
+  createTask: Task;
+  createUser: User;
+  removeTask: Task;
+  removeUser: User;
+  signIn: LoginResponse;
+  signOut: Scalars['String']['output'];
+  updateTask: Task;
+  updateUser: User;
 };
+
 
 export type MutationCreateTaskArgs = {
-	data: CreateTaskInput;
+  data: CreateTaskInput;
 };
+
 
 export type MutationCreateUserArgs = {
-	data: CreateUserInput;
+  data: CreateUserInput;
 };
+
 
 export type MutationRemoveTaskArgs = {
-	id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
+
 
 export type MutationSignInArgs = {
-	data: LoginUserInput;
+  data: LoginUserInput;
 };
+
 
 export type MutationUpdateTaskArgs = {
-	data: UpdateTaskInput;
-	id: Scalars["String"]["input"];
+  data: UpdateTaskInput;
+  id: Scalars['String']['input'];
 };
 
+
 export type MutationUpdateUserArgs = {
-	updateUserInput: UpdateUserInput;
+  updateUserInput: UpdateUserInput;
 };
 
 export type Query = {
-	__typename?: "Query";
-	task: Task;
-	tasks: Array<Task>;
-	user: User;
+  __typename?: 'Query';
+  task: Task;
+  tasks: Array<Task>;
+  user: User;
 };
+
 
 export type QueryTaskArgs = {
-	id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
 
+
 export type QueryUserArgs = {
-	email?: InputMaybe<Scalars["String"]["input"]>;
+  email?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Task = {
-	__typename?: "Task";
-	createdAt: Scalars["DateTime"]["output"];
-	description?: Maybe<Scalars["String"]["output"]>;
-	expireAt?: Maybe<Scalars["DateTime"]["output"]>;
-	id: Scalars["ID"]["output"];
-	status: TaskStatus;
-	title: Scalars["String"]["output"];
-	updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
-	user: User;
-	userId: Scalars["String"]["output"];
+  __typename?: 'Task';
+  createdAt: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  expireAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  status: TaskStatus;
+  title: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user: User;
+  userId: Scalars['String']['output'];
 };
 
 export enum TaskStatus {
-	Completed = "COMPLETED",
-	InProgress = "IN_PROGRESS",
-	Todo = "TODO",
+  Completed = 'COMPLETED',
+  InProgress = 'IN_PROGRESS',
+  Todo = 'TODO'
 }
 
 export type UpdateTaskInput = {
-	description?: InputMaybe<Scalars["String"]["input"]>;
-	expireAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-	status?: InputMaybe<TaskStatus>;
-	title?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  expireAt?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<TaskStatus>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateUserInput = {
-	email: Scalars["String"]["input"];
-	id: Scalars["ID"]["input"];
-	name: Scalars["String"]["input"];
-	password: Scalars["String"]["input"];
+  email: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type User = {
-	__typename?: "User";
-	Task: Array<Task>;
-	createdAt: Scalars["DateTime"]["output"];
-	email: Scalars["String"]["output"];
-	id: Scalars["ID"]["output"];
-	name: Scalars["String"]["output"];
-	updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  __typename?: 'User';
+  Task: Array<Task>;
+  createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type SignInMutationVariables = Exact<{
-	email: Scalars["String"]["input"];
-	password: Scalars["String"]["input"];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
-export type SignInMutation = {
-	__typename?: "Mutation";
-	signIn: {
-		__typename?: "LoginResponse";
-		user: { __typename?: "User"; id: string; email: string; name: string };
-	};
-};
+
+export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'LoginResponse', user: { __typename?: 'User', id: string, email: string, name: string } } };
 
 export type SignUpMutationVariables = Exact<{
-	name: Scalars["String"]["input"];
-	email: Scalars["String"]["input"];
-	password: Scalars["String"]["input"];
+  name: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
-export type SignUpMutation = {
-	__typename?: "Mutation";
-	createUser: {
-		__typename?: "User";
-		id: string;
-		email: string;
-		name: string;
-	};
-};
 
-export type SignOutMutationVariables = Exact<{ [key: string]: never }>;
+export type SignUpMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, email: string, name: string } };
 
-export type SignOutMutation = { __typename?: "Mutation"; signOut: string };
+export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SignOutMutation = { __typename?: 'Mutation', signOut: string };
 
 export type UpdateTaskMutationVariables = Exact<{
-	id: Scalars["String"]["input"];
-	title?: InputMaybe<Scalars["String"]["input"]>;
-	description?: InputMaybe<Scalars["String"]["input"]>;
-	expireAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-	status?: InputMaybe<TaskStatus>;
+  id: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  expireAt?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<TaskStatus>;
 }>;
 
-export type UpdateTaskMutation = {
-	__typename?: "Mutation";
-	updateTask: { __typename?: "Task"; title: string };
-};
+
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'Task', title: string } };
 
 export type CreateTaskMutationVariables = Exact<{
-	title?: InputMaybe<Scalars["String"]["input"]>;
-	description?: InputMaybe<Scalars["String"]["input"]>;
-	expireAt?: InputMaybe<Scalars["DateTime"]["input"]>;
-	status?: InputMaybe<TaskStatus>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  expireAt?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<TaskStatus>;
 }>;
 
-export type CreateTaskMutation = {
-	__typename?: "Mutation";
-	createTask: { __typename?: "Task"; title: string };
-};
 
-export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', title: string } };
 
-export type GetUserDataQuery = {
-	__typename?: "Query";
-	user: { __typename?: "User"; id: string; email: string; name: string };
-};
+export type GetUserDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserDataQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, email: string, name: string } };
 
 export type GetTaskQueryVariables = Exact<{
-	id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 }>;
 
-export type GetTaskQuery = {
-	__typename?: "Query";
-	task: {
-		__typename?: "Task";
-		id: string;
-		title: string;
-		description?: string | null;
-		status: TaskStatus;
-		expireAt?: string | null;
-	};
-};
 
-export type GetTaskListQueryVariables = Exact<{ [key: string]: never }>;
+export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'Task', id: string, title: string, description?: string | null, status: TaskStatus, expireAt?: string | null } };
 
-export type GetTaskListQuery = {
-	__typename?: "Query";
-	tasks: Array<{
-		__typename?: "Task";
-		id: string;
-		title: string;
-		description?: string | null;
-		status: TaskStatus;
-		expireAt?: string | null;
-	}>;
-};
+export type GetTaskListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTaskListQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title: string, description?: string | null, status: TaskStatus, expireAt?: string | null }> };
 
 export class TypedDocumentString<TResult, TVariables>
-	extends String
-	implements DocumentTypeDecoration<TResult, TVariables>
+  extends String
+  implements DocumentTypeDecoration<TResult, TVariables>
 {
-	__apiType?: NonNullable<
-		DocumentTypeDecoration<TResult, TVariables>["__apiType"]
-	>;
-	private value: string;
-	public __meta__?: Record<string, any> | undefined;
+  __apiType?: NonNullable<DocumentTypeDecoration<TResult, TVariables>['__apiType']>;
+  private value: string;
+  public __meta__?: Record<string, any> | undefined;
 
-	constructor(value: string, __meta__?: Record<string, any> | undefined) {
-		super(value);
-		this.value = value;
-		this.__meta__ = __meta__;
-	}
+  constructor(value: string, __meta__?: Record<string, any> | undefined) {
+    super(value);
+    this.value = value;
+    this.__meta__ = __meta__;
+  }
 
-	override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
-		return this.value;
-	}
+  override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+    return this.value;
+  }
 }
 
 export const SignInDocument = new TypedDocumentString(`
@@ -278,10 +233,7 @@ export const SignInDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-	SignInMutation,
-	SignInMutationVariables
->;
+    `) as unknown as TypedDocumentString<SignInMutation, SignInMutationVariables>;
 export const SignUpDocument = new TypedDocumentString(`
     mutation SignUp($name: String!, $email: String!, $password: String!) {
   createUser(data: {name: $name, email: $email, password: $password}) {
@@ -290,18 +242,12 @@ export const SignUpDocument = new TypedDocumentString(`
     name
   }
 }
-    `) as unknown as TypedDocumentString<
-	SignUpMutation,
-	SignUpMutationVariables
->;
+    `) as unknown as TypedDocumentString<SignUpMutation, SignUpMutationVariables>;
 export const SignOutDocument = new TypedDocumentString(`
     mutation SignOut {
   signOut
 }
-    `) as unknown as TypedDocumentString<
-	SignOutMutation,
-	SignOutMutationVariables
->;
+    `) as unknown as TypedDocumentString<SignOutMutation, SignOutMutationVariables>;
 export const UpdateTaskDocument = new TypedDocumentString(`
     mutation UpdateTask($id: String!, $title: String, $description: String, $expireAt: DateTime, $status: TaskStatus) {
   updateTask(
@@ -311,10 +257,7 @@ export const UpdateTaskDocument = new TypedDocumentString(`
     title
   }
 }
-    `) as unknown as TypedDocumentString<
-	UpdateTaskMutation,
-	UpdateTaskMutationVariables
->;
+    `) as unknown as TypedDocumentString<UpdateTaskMutation, UpdateTaskMutationVariables>;
 export const CreateTaskDocument = new TypedDocumentString(`
     mutation CreateTask($title: String, $description: String, $expireAt: DateTime, $status: TaskStatus) {
   createTask(
@@ -323,10 +266,7 @@ export const CreateTaskDocument = new TypedDocumentString(`
     title
   }
 }
-    `) as unknown as TypedDocumentString<
-	CreateTaskMutation,
-	CreateTaskMutationVariables
->;
+    `) as unknown as TypedDocumentString<CreateTaskMutation, CreateTaskMutationVariables>;
 export const GetUserDataDocument = new TypedDocumentString(`
     query getUserData {
   user {
@@ -335,10 +275,7 @@ export const GetUserDataDocument = new TypedDocumentString(`
     name
   }
 }
-    `) as unknown as TypedDocumentString<
-	GetUserDataQuery,
-	GetUserDataQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetUserDataQuery, GetUserDataQueryVariables>;
 export const GetTaskDocument = new TypedDocumentString(`
     query getTask($id: String!) {
   task(id: $id) {
@@ -360,7 +297,4 @@ export const GetTaskListDocument = new TypedDocumentString(`
     expireAt
   }
 }
-    `) as unknown as TypedDocumentString<
-	GetTaskListQuery,
-	GetTaskListQueryVariables
->;
+    `) as unknown as TypedDocumentString<GetTaskListQuery, GetTaskListQueryVariables>;
