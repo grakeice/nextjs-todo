@@ -1,11 +1,11 @@
-"apps/backend/**/*.{ts,tsx,js,jsx,mjs}":
+"apps/backend/**/*.{ts,tsx,js,jsx,mjs,gql,graphql}":
   - "prettier --write"
   - "pnpm --filter backend exec eslint --fix"
 
 "apps/backend/**/*.prisma":
   - "pnpm --filter backend exec prisma format"
 
-"apps/frontend/**/*.{ts,tsx,js,jsx,mjs}":
+"apps/frontend/**/*.{ts,tsx,js,jsx,mjs,gql,graphql}":
   - "prettier --write"
   - "pnpm --filter frontend exec eslint --fix"
 

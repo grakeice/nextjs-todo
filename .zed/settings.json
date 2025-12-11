@@ -1,0 +1,98 @@
+{
+	"lsp": {},
+	"languages": {
+		"JavaScript": {
+			"language_servers": [
+				"!biome",
+				"typescript-language-server",
+				"eslint"
+			],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"TypeScript": {
+			"language_servers": [
+				"!biome",
+				"typescript-language-server",
+				"eslint"
+			],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"TSX": {
+			"language_servers": [
+				"!biome",
+				"typescript-language-server",
+				"eslint"
+			],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"JSON": {
+			"language_servers": ["!biome", "json-language-server"],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"JSONC": {
+			"language_servers": ["!biome", "json-language-server"],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"CSS": {
+			"language_servers": ["!biome"],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"YAML": {
+			"language_servers": ["!biome", "yaml-language-server"],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"Markdown": {
+			"language_servers": ["!biome"],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		},
+		"GraphQL": {
+			"language_servers": ["!biome"],
+			"formatter": {
+				"external": {
+					"command": "node_modules/.bin/prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}"]
+				}
+			}
+		}
+	}
+}
