@@ -9,13 +9,22 @@
 		"check-types": {
 			"dependsOn": ["^check-types"]
 		},
+		"codegen": {
+			"persistent": true,
+			"cache": false
+		},
 		"dev": {
 			"persistent": true,
 			"cache": false,
-			"with": ["codegen"]
+			"with": ["codegen"],
+			"dependsOn": ["backend#prisma:migrate:dev"]
 		},
-		"codegen": {
-			"persistent": true
+		"backend#prisma:migrate:dev": {
+			"dependsOn": ["backend#start:db"],
+			"cache": false
+		},
+		"backend#start:db": {
+			"cache": false
 		}
 	}
 }

@@ -1,8 +1,6 @@
-version: "3.7"
-
 services:
   postgres:
-    image: postgres:15
+    image: postgres:18
     restart: always
     environment:
       - POSTGRES_DB=postgres
@@ -18,7 +16,7 @@ services:
       timeout: 2s
       retries: 20
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/
     command: postgres -c listen_addresses='*'
     logging:
       options:
