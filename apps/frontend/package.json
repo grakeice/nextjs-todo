@@ -3,10 +3,12 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "graphql-codegen --config codegen.ts --watch & next dev --turbopack --experimental-https",
+		"dev": "next dev --turbopack --experimental-https",
 		"build": "next build --turbopack",
 		"start": "next start",
-		"lint": "eslint"
+		"lint": "eslint",
+		"check-types": "tsc --noEmit",
+		"codegen": "graphql-codegen --config codegen.ts --watch"
 	},
 	"dependencies": {
 		"@eslint/eslintrc": "^3.3.3",

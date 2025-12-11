@@ -9,4 +9,4 @@ run = "pnpm --filter frontend dev"
 run = "pnpm --filter backend start:dev"
 
 [tasks.dev]
-run = { tasks = ["dev:backend", "dev:frontend"] }
+run = "pnpm dev"
