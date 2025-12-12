@@ -2,16 +2,49 @@
 
 import { useLayoutEffect, useRef, useState, type JSX } from "react";
 
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
-import { Edit3Icon, User2Icon } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { Edit3Icon, KeyRoundIcon, MailIcon, User2Icon } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
+import { queryClient } from "@/components/common/GqlClientProvider";
+import { Loading } from "@/components/common/Loading";
 import { Button } from "@/components/ui/button";
+import {
+	Field,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+} from "@/components/ui/field";
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+} from "@/components/ui/input-group";
+import { graphql } from "@/graphql";
+import { execute } from "@/graphql/execute";
+import type { GetUserDataQuery } from "@/graphql/graphql";
 import { useAccount } from "@/hooks/useAccount";
+import { editUserSchema } from "@/schema/accountSchema";
 
-export default function Page(): JSX.Element {
-	const { data, isLoading } = useAccount();
-	if (!data && !isLoading) redirect("/");
+interface UserPageProps {
+	data: GetUserDataQuery;
+}
+
+function UserPage({ data }: UserPageProps): JSX.Element {
+	const form = useForm<z.infer<typeof editUserSchema>>({
+		resolver: zodResolver(editUserSchema),
+		defaultValues: {
+			name: data?.user.name,
+			email: data?.user.email,
+		},
+	});
+
+	const router = useRouter();
 
 	const [isComposing, setIsComposing] = useState(false);
 	const [userNameEditable, setUserNameEditable] = useState(false);
@@ -19,6 +52,7 @@ export default function Page(): JSX.Element {
 
 	/**
 	 * userNameが編集可能になったら要素にフォーカスし、カーソルを文字列の最後に合わせる
+	 * (ContentEditableにフォーカスさせるだけだとカーソルが文字列の最初に来る)
 	 */
 	useLayoutEffect(() => {
 		if (!userNameEditable || isComposing) return;
@@ -35,6 +69,49 @@ export default function Page(): JSX.Element {
 		selection?.removeAllRanges();
 		selection?.addRange(range);
 	}, [userNameEditable, isComposing]);
+
+	const updateUser = useMutation({
+		mutationFn: (data: {
+			id: string;
+			name: string;
+			email: string;
+			password?: string;
+		}) =>
+			execute(
+				graphql(`
+					mutation updateUser(
+						$id: ID!
+						$name: String!
+						$email: String!
+						$password: String
+					) {
+						updateUser(
+							updateUserInput: {
+								id: $id
+								name: $name
+								email: $email
+								password: $password
+							}
+						) {
+							id
+						}
+					}
+				`),
+				data,
+			),
+		onError: () => {
+			toast.error("ユーザー情報の更新に失敗しました");
+		},
+		onSuccess: () => {
+			toast("ユーザー情報を更新しました");
+			queryClient.refetchQueries();
+			router.push("/");
+		},
+	});
+
+	const onSubmit = async (formData: z.infer<typeof editUserSchema>) => {
+		updateUser.mutate({ ...formData, id: data.user.id });
+	};
 
 	return (
 		<div className={"mx-auto w-full sm:max-w-md"}>
@@ -61,10 +138,13 @@ export default function Page(): JSX.Element {
 						onBlur={() => {
 							setUserNameEditable(false);
 						}}
+						onInput={(e) => {
+							form.setValue("name", e.currentTarget.textContent);
+						}}
 						ref={userNameRef}
 						suppressContentEditableWarning
 					>
-						{data?.user.name}
+						{form.getValues("name")}
 					</span>
 					<Button
 						variant={"link"}
@@ -79,6 +159,118 @@ export default function Page(): JSX.Element {
 					</Button>
 				</div>
 			</div>
+			<form onSubmit={form.handleSubmit(onSubmit)}>
+				<FieldGroup>
+					<Controller
+						control={form.control}
+						name={"name"}
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<input {...field} hidden />
+								{fieldState.invalid && (
+									<FieldError errors={[fieldState.error]} />
+								)}
+							</Field>
+						)}
+					/>
+					<Controller
+						control={form.control}
+						name={"email"}
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<FieldLabel htmlFor={field.name}>
+									メールアドレス
+								</FieldLabel>
+								<InputGroup>
+									<InputGroupAddon>
+										<MailIcon />
+									</InputGroupAddon>
+									<InputGroupInput
+										{...field}
+										placeholder={"メールアドレスを入力…"}
+										type={"email"}
+										aria-invalid={fieldState.invalid}
+										id={field.name}
+										autoComplete={"username"}
+									/>
+								</InputGroup>
+								{fieldState.invalid && (
+									<FieldError errors={[fieldState.error]} />
+								)}
+							</Field>
+						)}
+					/>
+					<Controller
+						control={form.control}
+						name={"password"}
+						render={({ field, fieldState }) => (
+							<Field>
+								<FieldLabel htmlFor={field.name}>
+									新しいパスワード
+								</FieldLabel>
+								<InputGroup>
+									<InputGroupAddon>
+										<KeyRoundIcon />
+									</InputGroupAddon>
+									<InputGroupInput
+										{...field}
+										type={"password"}
+										placeholder={"新しいパスワードを入力…"}
+										aria-invalid={fieldState.invalid}
+										id={field.name}
+										autoComplete={"new-password"}
+									/>
+								</InputGroup>
+								{fieldState.invalid && (
+									<FieldError errors={[fieldState.error]} />
+								)}
+							</Field>
+						)}
+					/>
+					<Controller
+						control={form.control}
+						name={"passwordConfirm"}
+						render={({ field, fieldState }) => (
+							<Field>
+								<FieldLabel htmlFor={field.name}>
+									新しいパスワードを確認
+								</FieldLabel>
+								<InputGroup>
+									<InputGroupAddon>
+										<KeyRoundIcon />
+									</InputGroupAddon>
+									<InputGroupInput
+										{...field}
+										type={"password"}
+										placeholder={
+											"新しいパスワードを再入力…"
+										}
+										aria-invalid={fieldState.invalid}
+										id={field.name}
+										autoComplete={"new-password"}
+									/>
+								</InputGroup>
+								{fieldState.invalid && (
+									<FieldError errors={[fieldState.error]} />
+								)}
+							</Field>
+						)}
+					/>
+				</FieldGroup>
+				<div className={"mt-12"}>
+					<Button className={"w-full"} type={"submit"}>
+						保存
+					</Button>
+				</div>
+			</form>
 		</div>
 	);
+}
+
+export default function Page(): JSX.Element {
+	const { data, isLoading } = useAccount();
+	if (!data && !isLoading) redirect("/");
+
+	if (!data || isLoading) return <Loading />;
+	return <UserPage data={data} />;
 }

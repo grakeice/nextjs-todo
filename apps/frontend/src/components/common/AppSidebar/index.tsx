@@ -126,13 +126,13 @@ export function AppSidebar(): JSX.Element {
 								}
 							>
 								<DropdownMenuItem asChild>
-									<SignOutButton />
-								</DropdownMenuItem>
-								<DropdownMenuItem asChild>
 									<Link href={"/user"}>
 										<Settings2Icon />
 										<span>設定</span>
 									</Link>
+								</DropdownMenuItem>
+								<DropdownMenuItem asChild>
+									<SignOutButton />
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>

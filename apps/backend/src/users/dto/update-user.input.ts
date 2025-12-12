@@ -16,6 +16,6 @@ export class UpdateUserInput {
 	@Field(() => String)
 	name: string;
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true })
 	password: string;
 }

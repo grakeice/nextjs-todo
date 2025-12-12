@@ -76,7 +76,7 @@ input UpdateUserInput {
   email: String!
   id: ID!
   name: String!
-  password: String!
+  password: String
 }
 
 type User {
