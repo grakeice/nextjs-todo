@@ -114,6 +114,7 @@ export default function Page(): JSX.Element {
 												}
 												id={field.name}
 												autoComplete={"username"}
+												required
 											/>
 										</InputGroup>
 										{fieldState.invalid && (
@@ -147,6 +148,7 @@ export default function Page(): JSX.Element {
 												autoComplete={
 													"current-password"
 												}
+												required
 											/>
 										</InputGroup>
 										{fieldState.invalid && (

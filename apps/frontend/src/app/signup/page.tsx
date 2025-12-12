@@ -35,6 +35,11 @@ import {
 } from "@/components/ui/input-group";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
+import {
+	SignInDocument,
+	type SignInMutationVariables,
+	type SignUpMutationVariables,
+} from "@/graphql/graphql";
 import { signUpSchema } from "@/schema/accountSchema";
 
 export default function Page(): JSX.Element {
@@ -51,7 +56,7 @@ export default function Page(): JSX.Element {
 
 	const signUp = useMutation({
 		mutationKey: ["user"],
-		mutationFn: (data: { name: string; email: string; password: string }) =>
+		mutationFn: (data: SignUpMutationVariables) =>
 			execute(
 				graphql(`
 					mutation SignUp(
@@ -88,21 +93,8 @@ export default function Page(): JSX.Element {
 
 	const signIn = useMutation({
 		mutationKey: ["user"],
-		mutationFn: (data: { email: string; password: string }) =>
-			execute(
-				graphql(`
-					mutation SignIn($email: String!, $password: String!) {
-						signIn(data: { email: $email, password: $password }) {
-							user {
-								id
-								email
-								name
-							}
-						}
-					}
-				`),
-				data,
-			),
+		mutationFn: (data: SignInMutationVariables) =>
+			execute(SignInDocument, data),
 		onSuccess: () => {
 			toast("サインインしました");
 			router.push("/");
@@ -157,6 +149,7 @@ export default function Page(): JSX.Element {
 												}
 												id={field.name}
 												autoComplete={"off"}
+												required
 											/>
 										</InputGroup>
 										{fieldState.invalid && (
@@ -190,6 +183,7 @@ export default function Page(): JSX.Element {
 												}
 												id={field.name}
 												autoComplete={"username"}
+												required
 											/>
 										</InputGroup>
 										{fieldState.invalid && (
@@ -223,6 +217,7 @@ export default function Page(): JSX.Element {
 												}
 												id={field.name}
 												autoComplete={"new-password"}
+												required
 											/>
 										</InputGroup>
 										{fieldState.invalid && (
@@ -256,6 +251,7 @@ export default function Page(): JSX.Element {
 												}
 												id={field.name}
 												autoComplete={"new-password"}
+												required
 											/>
 										</InputGroup>
 										{fieldState.invalid && (

@@ -23,11 +23,11 @@ export const signUpSchema = signInSchema
 export const editUserSchema = signInSchema
 	.extend({
 		name: z.string().min(2),
-		password: z.string().min(5).optional(),
-		passwordConfirm: z.string().optional(),
+		newPassword: z.union([z.string().min(5), z.literal("")]),
+		passwordConfirm: z.union([z.string(), z.literal("")]),
 	})
-	.superRefine(({ password, passwordConfirm }, ctx) => {
-		if (password !== passwordConfirm) {
+	.superRefine(({ newPassword, passwordConfirm }, ctx) => {
+		if (newPassword !== passwordConfirm) {
 			ctx.addIssue({
 				path: ["passwordConfirm"],
 				code: "custom",

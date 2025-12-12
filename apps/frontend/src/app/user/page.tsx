@@ -11,7 +11,6 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-import { queryClient } from "@/components/common/GqlClientProvider";
 import { Loading } from "@/components/common/Loading";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,7 +26,12 @@ import {
 } from "@/components/ui/input-group";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
-import type { GetUserDataQuery } from "@/graphql/graphql";
+import {
+	SignInDocument,
+	type GetUserDataQuery,
+	type SignInMutationVariables,
+	type UpdateUserMutationVariables,
+} from "@/graphql/graphql";
 import { useAccount } from "@/hooks/useAccount";
 import { editUserSchema } from "@/schema/accountSchema";
 
@@ -41,6 +45,9 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 		defaultValues: {
 			name: data?.user.name,
 			email: data?.user.email,
+			password: "",
+			newPassword: "",
+			passwordConfirm: "",
 		},
 	});
 
@@ -70,42 +77,59 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 		selection?.addRange(range);
 	}, [userNameEditable, isComposing]);
 
+	const signIn = useMutation({
+		mutationFn: (data: SignInMutationVariables) =>
+			execute(SignInDocument, data),
+	});
+
 	const updateUser = useMutation({
-		mutationFn: (data: {
-			id: string;
-			name: string;
-			email: string;
-			password?: string;
-		}) =>
+		mutationFn: (data: UpdateUserMutationVariables) =>
 			execute(
 				graphql(`
-					mutation updateUser(
+					mutation UpdateUser(
 						$id: ID!
 						$name: String!
 						$email: String!
-						$password: String
+						$newPassword: String
 					) {
 						updateUser(
 							updateUserInput: {
 								id: $id
 								name: $name
 								email: $email
-								password: $password
+								password: $newPassword
 							}
 						) {
 							id
+							email
 						}
 					}
 				`),
-				data,
+				{
+					...data,
+					newPassword: data.newPassword
+						? data.newPassword
+						: undefined,
+				},
 			),
 		onError: () => {
 			toast.error("ユーザー情報の更新に失敗しました");
 		},
-		onSuccess: () => {
+		onSuccess: (data) => {
 			toast("ユーザー情報を更新しました");
-			queryClient.refetchQueries();
-			router.push("/");
+			signIn.mutate(
+				{
+					email: data.updateUser.email,
+					password: form.getValues("newPassword")
+						? form.getValues("newPassword")
+						: form.getValues("password"),
+				},
+				{
+					onSuccess: () => {
+						router.push("/");
+					},
+				},
+			);
 		},
 	});
 
@@ -166,7 +190,7 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 						name={"name"}
 						render={({ field, fieldState }) => (
 							<Field data-invalid={fieldState.invalid}>
-								<input {...field} hidden />
+								<input {...field} hidden required />
 								{fieldState.invalid && (
 									<FieldError errors={[fieldState.error]} />
 								)}
@@ -192,6 +216,7 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 										aria-invalid={fieldState.invalid}
 										id={field.name}
 										autoComplete={"username"}
+										required
 									/>
 								</InputGroup>
 								{fieldState.invalid && (
@@ -203,6 +228,31 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 					<Controller
 						control={form.control}
 						name={"password"}
+						render={({ field, fieldState }) => (
+							<Field>
+								<FieldLabel htmlFor={field.name}>
+									現在のパスワード
+								</FieldLabel>
+								<InputGroup>
+									<InputGroupAddon>
+										<KeyRoundIcon />
+									</InputGroupAddon>
+									<InputGroupInput
+										{...field}
+										type={"password"}
+										placeholder={"現在のパスワードを入力…"}
+										aria-invalid={fieldState.invalid}
+										id={field.name}
+										autoComplete={"current-password"}
+										required
+									/>
+								</InputGroup>
+							</Field>
+						)}
+					/>
+					<Controller
+						control={form.control}
+						name={"newPassword"}
 						render={({ field, fieldState }) => (
 							<Field>
 								<FieldLabel htmlFor={field.name}>

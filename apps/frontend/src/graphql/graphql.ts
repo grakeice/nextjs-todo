@@ -165,11 +165,11 @@ export type UpdateUserMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   name: Scalars['String']['input'];
   email: Scalars['String']['input'];
-  password?: InputMaybe<Scalars['String']['input']>;
+  newPassword?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, email: string } };
 
 export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -261,11 +261,12 @@ export const SignUpDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<SignUpMutation, SignUpMutationVariables>;
 export const UpdateUserDocument = new TypedDocumentString(`
-    mutation updateUser($id: ID!, $name: String!, $email: String!, $password: String) {
+    mutation UpdateUser($id: ID!, $name: String!, $email: String!, $newPassword: String) {
   updateUser(
-    updateUserInput: {id: $id, name: $name, email: $email, password: $password}
+    updateUserInput: {id: $id, name: $name, email: $email, password: $newPassword}
   ) {
     id
+    email
   }
 }
     `) as unknown as TypedDocumentString<UpdateUserMutation, UpdateUserMutationVariables>;

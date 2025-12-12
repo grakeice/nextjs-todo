@@ -22,6 +22,7 @@ model Task {
   expireAt    DateTime?  @db.Timestamp(0)
   createdAt   DateTime   @default(now()) @db.Timestamp(0)
   updatedAt   DateTime   @updatedAt @db.Timestamp(0)
+  sortOrder   Int        @default(0)
   userId      String     @db.Uuid
   user        User       @relation(fields: [userId], references: [id])
 
