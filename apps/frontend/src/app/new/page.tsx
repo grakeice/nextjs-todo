@@ -13,7 +13,15 @@ export default function Page(): JSX.Element {
 		redirect("/");
 	}
 	return (
-		<div>
+		<div className={"mx-auto w-full sm:max-w-md"}>
+			<div className={"mb-4"}>
+				<h1 className={"text-lg leading-none font-semibold"}>
+					新規タスク
+				</h1>
+				<p className={"text-muted-foreground text-sm"}>
+					新しいタスクを作成する
+				</p>
+			</div>
 			<EditTask mode={"create"} />
 		</div>
 	);

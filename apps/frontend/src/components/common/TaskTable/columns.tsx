@@ -98,10 +98,12 @@ export const columns: ColumnDef<Task>[] = [
 		cell: ({ cell }) => {
 			const expireAt = cell.row.original.expireAt;
 			if (expireAt) {
-				return new Date(expireAt).toLocaleDateString("ja-JP", {
+				return new Date(expireAt).toLocaleString("ja-JP", {
 					year: "numeric",
 					month: "long",
 					day: "numeric",
+					hour: "2-digit",
+					minute: "2-digit",
 				});
 			}
 			return "";

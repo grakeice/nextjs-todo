@@ -18,16 +18,26 @@ export default function Page({ params }: Props): JSX.Element {
 	if (data?.task) {
 		const { task } = data;
 		return (
-			<EditTask
-				mode={"edit"}
-				id={id}
-				data={{
-					title: task.title,
-					description: task.description ?? "",
-					status: task.status,
-					expireAt: task.expireAt ?? "",
-				}}
-			/>
+			<div className={"mx-auto w-full sm:max-w-md"}>
+				<div className={"mb-4"}>
+					<h1 className={"text-lg leading-none font-semibold"}>
+						タスクを編集
+					</h1>
+					<p className={"text-muted-foreground text-sm"}>
+						タスクを編集する
+					</p>
+				</div>
+				<EditTask
+					mode={"edit"}
+					id={id}
+					data={{
+						title: task.title,
+						description: task.description ?? "",
+						status: task.status,
+						expireAt: task.expireAt ?? "",
+					}}
+				/>
+			</div>
 		);
 	} else if (!isLoading) {
 		router.back();
