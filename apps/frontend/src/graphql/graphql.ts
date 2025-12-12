@@ -187,6 +187,13 @@ export type CreateTaskMutationVariables = Exact<{
 
 export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', title: string } };
 
+export type DeleteTaskMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteTaskMutation = { __typename?: 'Mutation', removeTask: { __typename?: 'Task', id: string } };
+
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -267,6 +274,13 @@ export const CreateTaskDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateTaskMutation, CreateTaskMutationVariables>;
+export const DeleteTaskDocument = new TypedDocumentString(`
+    mutation deleteTask($id: String!) {
+  removeTask(id: $id) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteTaskMutation, DeleteTaskMutationVariables>;
 export const GetUserDataDocument = new TypedDocumentString(`
     query getUserData {
   user {
