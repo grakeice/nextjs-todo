@@ -159,8 +159,9 @@ export const columns: ColumnDef<Task>[] = [
 								type={"button"}
 								variant={"ghost"}
 								className={clsx(
-									"invisible cursor-pointer group-hover:visible hover:text-red-500",
-									alertOpen && "visible text-red-500",
+									"hover:text-destructive cursor-pointer group-hover:visible",
+									!alertOpen && "invisible",
+									alertOpen && "text-destructive",
 								)}
 							>
 								<Trash2Icon />
@@ -172,12 +173,18 @@ export const columns: ColumnDef<Task>[] = [
 								variant={"destructive"}
 							>
 								<AlertTitle>
-									<AlertTriangleIcon />
-									<span>削除しますか？</span>
+									<span
+										className={
+											"flex flex-row items-center gap-2"
+										}
+									>
+										<AlertTriangleIcon />
+										<span>削除しますか？</span>
+									</span>
 								</AlertTitle>
 								<AlertDescription>
 									この操作は取り消せません
-									<div className={"*:mx-px"}>
+									<div className={"*:mx-1"}>
 										<Button
 											variant={"outline"}
 											className={"text-primary"}

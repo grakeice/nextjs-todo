@@ -144,6 +144,16 @@ export type User = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  newPassword?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, email: string } };
+
 export type SignInMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -160,16 +170,6 @@ export type SignUpMutationVariables = Exact<{
 
 
 export type SignUpMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, email: string, name: string } };
-
-export type UpdateUserMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  name: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-  newPassword?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, email: string } };
 
 export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -240,6 +240,16 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const UpdateUserDocument = new TypedDocumentString(`
+    mutation UpdateUser($id: ID!, $name: String!, $email: String!, $newPassword: String) {
+  updateUser(
+    updateUserInput: {id: $id, name: $name, email: $email, password: $newPassword}
+  ) {
+    id
+    email
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateUserMutation, UpdateUserMutationVariables>;
 export const SignInDocument = new TypedDocumentString(`
     mutation SignIn($email: String!, $password: String!) {
   signIn(data: {email: $email, password: $password}) {
@@ -260,16 +270,6 @@ export const SignUpDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SignUpMutation, SignUpMutationVariables>;
-export const UpdateUserDocument = new TypedDocumentString(`
-    mutation UpdateUser($id: ID!, $name: String!, $email: String!, $newPassword: String) {
-  updateUser(
-    updateUserInput: {id: $id, name: $name, email: $email, password: $newPassword}
-  ) {
-    id
-    email
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateUserMutation, UpdateUserMutationVariables>;
 export const SignOutDocument = new TypedDocumentString(`
     mutation SignOut {
   signOut

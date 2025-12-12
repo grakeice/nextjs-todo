@@ -126,7 +126,7 @@ export function AppSidebar(): JSX.Element {
 								}
 							>
 								<DropdownMenuItem asChild>
-									<Link href={"/user"}>
+									<Link href={"/account"}>
 										<Settings2Icon />
 										<span>設定</span>
 									</Link>

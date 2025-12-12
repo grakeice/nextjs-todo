@@ -5,7 +5,7 @@ import type { JSX } from "react";
 import { redirect } from "next/navigation";
 
 import { columns } from "@/components/common/TaskTable/columns";
-import { TaskTable } from "@/components/ui/data-table";
+import { TaskTable } from "@/components/common/TaskTable/data-table";
 import { useAccount } from "@/hooks/useAccount";
 import { useTaskList } from "@/hooks/useTaskList";
 

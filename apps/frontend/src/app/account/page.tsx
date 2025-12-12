@@ -116,7 +116,6 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 			toast.error("ユーザー情報の更新に失敗しました");
 		},
 		onSuccess: (data) => {
-			toast("ユーザー情報を更新しました");
 			signIn.mutate(
 				{
 					email: data.updateUser.email,
@@ -126,7 +125,13 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 				},
 				{
 					onSuccess: () => {
+						toast("ユーザー情報を更新しました");
 						router.push("/");
+					},
+					onError: () => {
+						toast.error(
+							"パスワードもしくはメールアドレスが間違っています",
+						);
 					},
 				},
 			);
