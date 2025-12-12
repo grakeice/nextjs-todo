@@ -9,6 +9,7 @@ import {
 	CalendarIcon,
 	ChevronDownIcon,
 	ClockIcon,
+	EraserIcon,
 	RectangleEllipsisIcon,
 	TextAlignStartIcon,
 } from "lucide-react";
@@ -57,6 +58,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { graphql } from "@/graphql";
 import { execute } from "@/graphql/execute";
 import {
@@ -260,8 +266,34 @@ export function EditTask({
 						name={"expireAt"}
 						render={({ field, fieldState }) => (
 							<Field data-invalid={fieldState.invalid}>
-								<FieldLabel htmlFor={field.name}>
+								<FieldLabel
+									htmlFor={field.name}
+									className={
+										"flex translate-y-2 items-center justify-between"
+									}
+								>
 									期限
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												type={"button"}
+												variant={"ghost"}
+												className={"cursor-pointer"}
+												onClick={() => {
+													form.setValue(
+														"expireAt",
+														"",
+													);
+													setExpireTime("");
+												}}
+											>
+												<EraserIcon />
+											</Button>
+										</TooltipTrigger>
+										<TooltipContent side={"left"}>
+											日付をクリア
+										</TooltipContent>
+									</Tooltip>
 								</FieldLabel>
 								<input
 									{...field}
