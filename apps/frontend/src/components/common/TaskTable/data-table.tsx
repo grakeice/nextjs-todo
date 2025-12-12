@@ -4,7 +4,10 @@ import {
 	ColumnDef,
 	flexRender,
 	getCoreRowModel,
+	getFilteredRowModel,
+	getSortedRowModel,
 	useReactTable,
+	type InitialTableState,
 } from "@tanstack/react-table";
 
 import {
@@ -19,17 +22,22 @@ import {
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	initialState?: InitialTableState;
 }
 
 export function TaskTable<TData, TValue>({
 	columns,
 	data,
+	initialState,
 }: DataTableProps<TData, TValue>) {
 	// eslint-disable-next-line react-hooks/incompatible-library
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
+		initialState,
 	});
 
 	return (

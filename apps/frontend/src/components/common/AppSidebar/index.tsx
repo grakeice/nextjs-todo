@@ -85,13 +85,17 @@ export function AppSidebar(): JSX.Element {
 									<span>全てのタスク</span>
 								</Link>
 							</SidebarMenuButton>
-							<SidebarMenuButton>
-								<CircleDashedIcon />
-								<span>未完了タスク</span>
+							<SidebarMenuButton asChild>
+								<Link href={"/tasks?todo=true"}>
+									<CircleDashedIcon />
+									<span>未完了タスク</span>
+								</Link>
 							</SidebarMenuButton>
-							<SidebarMenuButton>
-								<CheckCheckIcon />
-								<span>完了済みタスク</span>
+							<SidebarMenuButton asChild>
+								<Link href={"/tasks?completed=true"}>
+									<CheckCheckIcon />
+									<span>完了済みタスク</span>
+								</Link>
 							</SidebarMenuButton>
 						</SidebarMenu>
 					</SidebarGroupContent>

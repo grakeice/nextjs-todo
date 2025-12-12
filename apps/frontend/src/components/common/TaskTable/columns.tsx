@@ -12,7 +12,7 @@ import {
 	CircleCheckBigIcon,
 	CircleDashedIcon,
 	CircleDotIcon,
-	GripVerticalIcon,
+	// GripVerticalIcon,
 	PencilIcon,
 	Trash2Icon,
 } from "lucide-react";
@@ -45,9 +45,11 @@ export const columns: ColumnDef<Task>[] = [
 		id: "sort-handle",
 		cell: () => {
 			return (
-				<Button variant={"ghost"} className={"cursor-grab"}>
-					<GripVerticalIcon />
-				</Button>
+				<>
+					{/* <Button variant={"ghost"} className={"cursor-grab"}>
+						<GripVerticalIcon />
+					</Button> */}
+				</>
 			);
 		},
 	},
@@ -60,6 +62,21 @@ export const columns: ColumnDef<Task>[] = [
 		header: "説明",
 	},
 	{
+		id: "status",
+		sortingFn: (rowA, rowB) => {
+			const sortCriteria = Object.fromEntries(
+				Object.entries([
+					TaskStatus.Todo,
+					TaskStatus.InProgress,
+					TaskStatus.Completed,
+				]).map((v) => [v[1], Number(v[0])]),
+			);
+			const a = sortCriteria[rowA.original.status];
+			const b = sortCriteria[rowB.original.status];
+
+			return a > b ? 1 : a < b ? -1 : 0;
+		},
+		filterFn: "arrIncludesSome",
 		accessorKey: "status",
 		header: "ステータス",
 		cell: ({ cell }) => {
@@ -93,6 +110,16 @@ export const columns: ColumnDef<Task>[] = [
 		},
 	},
 	{
+		id: "expireAt",
+		sortingFn: (rowA, rowB) => {
+			const a = new Date(
+				rowA.original.expireAt ?? Number.MAX_SAFE_INTEGER,
+			);
+			const b = new Date(
+				rowB.original.expireAt ?? Number.MAX_SAFE_INTEGER,
+			);
+			return a > b ? 1 : a < b ? -1 : 0;
+		},
 		accessorKey: "expireAt",
 		header: "期限",
 		cell: ({ cell }) => {
