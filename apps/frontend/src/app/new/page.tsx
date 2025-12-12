@@ -14,7 +14,7 @@ export default function Page(): JSX.Element {
 	}
 	return (
 		<div className={"mx-auto w-full sm:max-w-md"}>
-			<div className={"mb-4"}>
+			<div className={"mb-4 px-4 sm:px-0"}>
 				<h1 className={"text-lg leading-none font-semibold"}>
 					新規タスク
 				</h1>

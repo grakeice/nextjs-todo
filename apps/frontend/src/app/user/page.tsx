@@ -138,7 +138,7 @@ function UserPage({ data }: UserPageProps): JSX.Element {
 	};
 
 	return (
-		<div className={"mx-auto w-full sm:max-w-md"}>
+		<div className={"mx-auto w-full px-4 sm:max-w-md sm:px-0"}>
 			<div className={"flex items-center gap-4"}>
 				<div
 					className={

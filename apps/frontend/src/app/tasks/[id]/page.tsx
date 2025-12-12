@@ -19,7 +19,7 @@ export default function Page({ params }: Props): JSX.Element {
 		const { task } = data;
 		return (
 			<div className={"mx-auto w-full sm:max-w-md"}>
-				<div className={"mb-4"}>
+				<div className={"mb-4 px-4 sm:px-0"}>
 					<h1 className={"text-lg leading-none font-semibold"}>
 						タスクを編集
 					</h1>
