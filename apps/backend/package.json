@@ -26,10 +26,10 @@
 	"dependencies": {
 		"@apollo/server": "^5.2.0",
 		"@as-integrations/express5": "^1.1.2",
-		"@nestjs/apollo": "^13.2.1",
+		"@nestjs/apollo": "^13.2.3",
 		"@nestjs/common": "^11.1.9",
 		"@nestjs/core": "^11.1.9",
-		"@nestjs/graphql": "^13.2.0",
+		"@nestjs/graphql": "^13.2.3",
 		"@nestjs/jwt": "^11.0.2",
 		"@nestjs/mapped-types": "^2.1.0",
 		"@nestjs/passport": "^11.0.5",
@@ -53,7 +53,7 @@
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.3",
-		"@eslint/js": "^9.39.1",
+		"@eslint/js": "^9.39.2",
 		"@nestjs/cli": "^11.0.14",
 		"@nestjs/schematics": "^11.0.9",
 		"@nestjs/testing": "^11.1.9",
@@ -62,12 +62,12 @@
 		"@types/cookie-parser": "^1.4.10",
 		"@types/express": "^5.0.6",
 		"@types/jest": "^30.0.0",
-		"@types/node": "^25.0.1",
+		"@types/node": "^25.0.2",
 		"@types/passport-jwt": "^4.0.1",
 		"@types/passport-local": "^1.0.38",
 		"@types/pg": "^8.16.0",
 		"@types/supertest": "^6.0.3",
-		"eslint": "^9.39.1",
+		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-prettier": "^5.5.4",
 		"globals": "^16.5.0",
@@ -81,7 +81,7 @@
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
 		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.49.0"
+		"typescript-eslint": "^8.50.0"
 	},
 	"jest": {
 		"moduleFileExtensions": [
