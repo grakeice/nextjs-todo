@@ -1,3 +1,5 @@
+"use client";
+
 import type { JSX } from "react";
 
 import Link from "next/link";
@@ -33,6 +35,7 @@ import {
 } from "../../ui/sidebar";
 import {
 	NewTaskButton,
+	SidebarMenuLink,
 	SignOutButton,
 	UserEmail,
 	UserName,
@@ -62,12 +65,10 @@ export function AppSidebar(): JSX.Element {
 					<SidebarGroupContent>
 						<SidebarMenu>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
-									<Link href={"/"}>
-										<HomeIcon />
-										<span>ホーム</span>
-									</Link>
-								</SidebarMenuButton>
+								<SidebarMenuLink href={"/"}>
+									<HomeIcon />
+									<span>ホーム</span>
+								</SidebarMenuLink>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
 								<NewTaskButton />
@@ -79,24 +80,18 @@ export function AppSidebar(): JSX.Element {
 					<SidebarGroupLabel>Todo</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
-							<SidebarMenuButton asChild>
-								<Link href={"/tasks"}>
-									<CheckCircleIcon />
-									<span>全てのタスク</span>
-								</Link>
-							</SidebarMenuButton>
-							<SidebarMenuButton asChild>
-								<Link href={"/tasks?todo=true"}>
-									<CircleDashedIcon />
-									<span>未完了タスク</span>
-								</Link>
-							</SidebarMenuButton>
-							<SidebarMenuButton asChild>
-								<Link href={"/tasks?completed=true"}>
-									<CheckCheckIcon />
-									<span>完了済みタスク</span>
-								</Link>
-							</SidebarMenuButton>
+							<SidebarMenuLink href={"/tasks"}>
+								<CheckCircleIcon />
+								<span>全てのタスク</span>
+							</SidebarMenuLink>
+							<SidebarMenuLink href={"/tasks?todo=true"}>
+								<CircleDashedIcon />
+								<span>未完了タスク</span>
+							</SidebarMenuLink>
+							<SidebarMenuLink href={"/tasks?completed=true"}>
+								<CheckCheckIcon />
+								<span>完了済みタスク</span>
+							</SidebarMenuLink>
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>

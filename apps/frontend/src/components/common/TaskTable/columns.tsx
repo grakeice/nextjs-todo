@@ -12,7 +12,6 @@ import {
 	CircleCheckBigIcon,
 	CircleDashedIcon,
 	CircleDotIcon,
-	// GripVerticalIcon,
 	PencilIcon,
 	Trash2Icon,
 } from "lucide-react";

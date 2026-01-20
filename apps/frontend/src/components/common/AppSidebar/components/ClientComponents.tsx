@@ -1,11 +1,12 @@
 "use client";
 
-import type { ComponentProps, JSX } from "react";
+import type { ComponentProps, JSX, PropsWithChildren } from "react";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
+import clsx from "clsx";
 import { LogOutIcon, PlusIcon } from "lucide-react";
 
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -15,6 +16,31 @@ import { execute } from "@/graphql/execute";
 import { useAccount } from "@/hooks/useAccount";
 
 import { queryClient } from "../../GqlClientProvider";
+
+interface SidebarMenuLinkProps {
+	href: string;
+}
+export function SidebarMenuLink({
+	href,
+	children,
+}: PropsWithChildren<SidebarMenuLinkProps>): JSX.Element {
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const paramString = searchParams.toString()
+		? `?${searchParams.toString()}`
+		: "";
+	return (
+		<SidebarMenuButton
+			className={clsx(
+				`${pathname}${paramString}` === href &&
+					"bg-primary text-primary-foreground pointer-events-none shadow-md",
+			)}
+			asChild
+		>
+			<Link href={href}>{children}</Link>
+		</SidebarMenuButton>
+	);
+}
 
 export function SignOutButton(): JSX.Element {
 	const signOut = useMutation({
