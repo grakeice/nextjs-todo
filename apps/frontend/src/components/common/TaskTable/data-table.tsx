@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import {
 	ColumnDef,
 	flexRender,
@@ -40,6 +42,7 @@ export function TaskTable<TData, TValue>({
 		initialState,
 	});
 
+	const router = useRouter();
 	return (
 		<div className="overflow-hidden rounded-md border">
 			<Table>
@@ -68,7 +71,12 @@ export function TaskTable<TData, TValue>({
 							<TableRow
 								key={row.id}
 								data-state={row.getIsSelected() && "selected"}
-								className={"group"}
+								className={"group cursor-pointer"}
+								onClick={() => {
+									router.push(
+										`/tasks/${(row.original as { id?: string })?.id}`,
+									);
+								}}
 							>
 								{row.getVisibleCells().map((cell) => (
 									<TableCell key={cell.id}>

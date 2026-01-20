@@ -12,6 +12,7 @@ import {
 	CircleCheckBigIcon,
 	CircleDashedIcon,
 	CircleDotIcon,
+	// GripVerticalIcon,
 	PencilIcon,
 	Trash2Icon,
 } from "lucide-react";
@@ -189,6 +190,7 @@ export const columns: ColumnDef<Task>[] = [
 									!alertOpen && "invisible",
 									alertOpen && "text-destructive",
 								)}
+								onClick={(e) => e.stopPropagation()}
 							>
 								<Trash2Icon />
 							</Button>
@@ -214,13 +216,19 @@ export const columns: ColumnDef<Task>[] = [
 										<Button
 											variant={"outline"}
 											className={"text-primary"}
-											onClick={() => setAlertOpen(false)}
+											onClick={(e) => {
+												e.stopPropagation();
+												setAlertOpen(false);
+											}}
 										>
 											キャンセル
 										</Button>
 										<Button
 											variant={"destructive"}
-											onClick={() => deleteTask.mutate()}
+											onClick={(e) => {
+												e.stopPropagation();
+												deleteTask.mutate();
+											}}
 										>
 											削除
 										</Button>
