@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DefaultError, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { ClientError } from "graphql-request";
 import { CircleUserRoundIcon, KeyRoundIcon, MailIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
