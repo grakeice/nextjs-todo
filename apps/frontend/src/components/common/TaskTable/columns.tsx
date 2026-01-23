@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { type JSX, useState } from "react";
 
 import Link from "next/link";
 
@@ -38,6 +38,120 @@ export interface Task {
 	description?: string | null;
 	status: TaskStatus;
 	expireAt?: string | null;
+}
+
+const STATUS_OPTIONS = [
+	{
+		value: TaskStatus.Todo,
+		label: "未完了",
+		icon: CircleDashedIcon,
+		className: clsx("bg-accent"),
+	},
+	{
+		value: TaskStatus.InProgress,
+		label: "進行中",
+		icon: CircleDotIcon,
+		className: clsx("bg-accent text-green-500"),
+	},
+	{
+		value: TaskStatus.Completed,
+		label: "完了",
+		icon: CircleCheckBigIcon,
+		className: clsx("bg-background"),
+	},
+] as const;
+
+function StatusCell({ task }: { task: Task }): JSX.Element {
+	const [open, setOpen] = useState(false);
+	const currentStatus =
+		STATUS_OPTIONS.find((option) => option.value === task.status) ??
+		STATUS_OPTIONS[0];
+
+	const updateStatus = useMutation<unknown, Error, TaskStatus>({
+		mutationFn: (status: TaskStatus) =>
+			execute(
+				graphql(`
+					mutation UpdateTaskStatus(
+						$id: String!
+						$status: TaskStatus
+					) {
+						updateTask(id: $id, data: { status: $status }) {
+							id
+							status
+						}
+					}
+				`),
+				{
+					id: task.id,
+					status,
+				},
+			),
+		onSuccess: () => {
+			toast("ステータスを更新しました");
+			setOpen(false);
+			queryClient.refetchQueries();
+		},
+		onError: () => {
+			toast.error("ステータスの更新に失敗しました");
+		},
+	});
+
+	return (
+		<Popover open={open} onOpenChange={setOpen}>
+			<PopoverTrigger asChild>
+				<Badge
+					asChild
+					variant={"outline"}
+					className={clsx(
+						currentStatus.className,
+						"cursor-pointer focus-visible:outline-none",
+					)}
+				>
+					<button
+						type={"button"}
+						className={"flex items-center gap-1"}
+						onClick={(e) => e.stopPropagation()}
+					>
+						<currentStatus.icon />
+						{currentStatus.label}
+					</button>
+				</Badge>
+			</PopoverTrigger>
+			<PopoverContent
+				onClick={(e) => e.stopPropagation()}
+				className={
+					"bg-background/30 flex w-fit flex-col gap-4 rounded-2xl p-3 backdrop-blur-[2px]"
+				}
+			>
+				{STATUS_OPTIONS.map((option) => {
+					const isActive = option.value === task.status;
+					return (
+						<Badge
+							asChild
+							key={option.value}
+							variant={"outline"}
+							className={clsx(
+								option.className,
+								"cursor-pointer focus-visible:outline-none",
+							)}
+						>
+							<button
+								type={"button"}
+								className={"flex items-center gap-1"}
+								disabled={updateStatus.isPending || isActive}
+								onClick={() =>
+									updateStatus.mutate(option.value)
+								}
+							>
+								<option.icon />
+								{option.label}
+							</button>
+						</Badge>
+					);
+				})}
+			</PopoverContent>
+		</Popover>
+	);
 }
 
 export const columns: ColumnDef<Task>[] = [
@@ -79,35 +193,7 @@ export const columns: ColumnDef<Task>[] = [
 		filterFn: "arrIncludesSome",
 		accessorKey: "status",
 		header: "ステータス",
-		cell: ({ cell }) => {
-			const status = cell.row.original.status;
-			switch (status) {
-				case TaskStatus.Todo:
-					return (
-						<Badge variant={"outline"} className={"bg-accent"}>
-							<CircleDashedIcon />
-							未完了
-						</Badge>
-					);
-				case TaskStatus.InProgress:
-					return (
-						<Badge
-							variant={"outline"}
-							className={"bg-accent text-green-500"}
-						>
-							<CircleDotIcon />
-							進行中
-						</Badge>
-					);
-				case TaskStatus.Completed:
-					return (
-						<Badge variant={"outline"}>
-							<CircleCheckBigIcon />
-							完了
-						</Badge>
-					);
-			}
-		},
+		cell: ({ cell }) => <StatusCell task={cell.row.original} />,
 	},
 	{
 		id: "expireAt",
@@ -195,7 +281,7 @@ export const columns: ColumnDef<Task>[] = [
 								<Trash2Icon />
 							</Button>
 						</PopoverTrigger>
-						<PopoverContent>
+						<PopoverContent onClick={(e) => e.stopPropagation()}>
 							<Alert
 								className={"border-0 p-0"}
 								variant={"destructive"}

@@ -197,6 +197,14 @@ export type CreateTaskMutationVariables = Exact<{
 
 export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', title: string } };
 
+export type UpdateTaskStatusMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  status?: InputMaybe<TaskStatus>;
+}>;
+
+
+export type UpdateTaskStatusMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'Task', id: string, status: TaskStatus } };
+
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -294,6 +302,14 @@ export const CreateTaskDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateTaskMutation, CreateTaskMutationVariables>;
+export const UpdateTaskStatusDocument = new TypedDocumentString(`
+    mutation UpdateTaskStatus($id: String!, $status: TaskStatus) {
+  updateTask(id: $id, data: {status: $status}) {
+    id
+    status
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskStatusMutation, UpdateTaskStatusMutationVariables>;
 export const DeleteTaskDocument = new TypedDocumentString(`
     mutation deleteTask($id: String!) {
   removeTask(id: $id) {
