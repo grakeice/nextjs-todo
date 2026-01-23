@@ -1,1 +1,3 @@
 pnpm lint-staged
+bash -c "cd ./apps/frontend; pnpm tsc --noEmit"
+bash -c "cd ./apps/backend; pnpm tsc --noEmit"
