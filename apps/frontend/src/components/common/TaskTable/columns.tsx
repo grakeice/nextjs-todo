@@ -120,7 +120,7 @@ function StatusCell({ task }: { task: Task }): JSX.Element {
 			<PopoverContent
 				onClick={(e) => e.stopPropagation()}
 				className={
-					"bg-background/30 flex w-fit flex-col gap-4 rounded-2xl p-3 backdrop-blur-[2px]"
+					"bg-background/40 flex w-fit flex-col gap-4 rounded-2xl p-3 backdrop-blur-[2px]"
 				}
 			>
 				{STATUS_OPTIONS.map((option) => {
