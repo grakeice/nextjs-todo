@@ -6,7 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { DefaultError, useMutation } from "@tanstack/react-query";
+import { ClientError } from "graphql-request";
 import { CircleUserRoundIcon, KeyRoundIcon, MailIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -40,6 +41,7 @@ import {
 	type SignInMutationVariables,
 	type SignUpMutationVariables,
 } from "@/graphql/graphql";
+import { SignUpError } from "@/lib/Errors";
 import { signUpSchema } from "@/schema/accountSchema";
 
 export default function Page(): JSX.Element {
@@ -84,9 +86,16 @@ export default function Page(): JSX.Element {
 		onSuccess: () => {
 			toast.success("アカウントを作成しました");
 		},
-		onError: (error) => {
+		onError: (error: ClientError) => {
+			console.log(JSON.parse(JSON.stringify(error)));
 			toast.error("アカウントの作成に失敗しました", {
-				description: <ToastErrorDescription error={error} />,
+				description: (
+					<ToastErrorDescription
+						error={
+							new SignUpError(error?.response.errors?.[0].message)
+						}
+					/>
+				),
 			});
 		},
 	});

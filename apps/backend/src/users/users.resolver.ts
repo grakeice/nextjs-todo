@@ -1,4 +1,4 @@
-import { UseGuards } from "@nestjs/common";
+import { BadRequestException, UseGuards } from "@nestjs/common";
 import { Resolver, Query, Mutation, Args, Context } from "@nestjs/graphql";
 
 import type { IncomingMessage } from "node:http";
@@ -15,8 +15,12 @@ export class UsersResolver {
 	constructor(private readonly usersService: UsersService) {}
 
 	@Mutation(() => User)
-	createUser(@Args("data") createUserInput: CreateUserInput) {
-		return this.usersService.create(createUserInput);
+	async createUser(@Args("data") createUserInput: CreateUserInput) {
+		try {
+			return await this.usersService.create(createUserInput);
+		} catch {
+			throw new BadRequestException();
+		}
 	}
 
 	@Query(() => User, { name: "user" })
