@@ -49,7 +49,7 @@ export default function RootLayout({
 						disableTransitionOnChange
 					>
 						<GqlClientProvider>
-							<SidebarProvider>
+							<SidebarProvider defaultOpen={false}>
 								<div className={"flex w-screen flex-row"}>
 									<AppSidebar />
 									<div
